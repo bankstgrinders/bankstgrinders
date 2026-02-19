@@ -49,9 +49,9 @@ body {
 }
 
 .logo {
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
   border-radius: 50%;
 }
 
