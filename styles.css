@@ -35,10 +35,10 @@ body {
 
 /* --- HEADER --- */
 .site-header {
-  background-color: #1a3a6b;
+  background-color: #000000;
   padding: 24px 20px;
   text-align: center;
-  border-bottom: 4px solid var(--gold);
+  border-bottom: 4px solid var(--red-deli);
 }
 
 .header-inner {
@@ -80,8 +80,8 @@ body {
   letter-spacing: 0.5em;
   padding: 14px 0;
   background-color: var(--parchment);
-  border-top: 1px solid var(--gold);
-  border-bottom: 1px solid var(--gold);
+  border-top: 1px solid var(--red-deli);
+  border-bottom: 1px solid var(--red-deli);
 }
 
 /* --- HERO SECTION --- */
@@ -164,7 +164,7 @@ body {
 .info-section {
   background-color: var(--parchment);
   padding: 48px 24px;
-  border-top: 2px solid var(--gold);
+  border-top: 2px solid var(--red-deli);
 }
 
 .info-grid {
@@ -189,7 +189,7 @@ body {
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  border-bottom: 2px solid var(--gold);
+  border-bottom: 2px solid var(--red-deli);
   padding-bottom: 6px;
   display: inline-block;
 }
@@ -220,7 +220,7 @@ body {
   text-align: center;
   padding: 18px 20px;
   font-size: 0.85rem;
-  border-top: 3px solid var(--gold);
+  border-top: 3px solid var(--red-deli);
   opacity: 0.95;
 }
 
@@ -247,7 +247,7 @@ body {
   width: 100%;
   max-width: 1100px;
   height: 90vh;
-  border: 3px solid var(--gold);
+  border: 3px solid var(--red-deli);
   border-radius: 4px;
   overflow: hidden;
   background: #fff;
