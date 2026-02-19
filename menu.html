@@ -75,7 +75,7 @@
 
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         const page = await pdf.getPage(pageNum);
-        const viewport = page.getViewport({ scale: 1.5 });
+        const viewport = page.getViewport({ scale: 1.95 });
         const canvas = canvases[pageNum - 1];
         canvas.width = viewport.width;
         canvas.height = viewport.height;
