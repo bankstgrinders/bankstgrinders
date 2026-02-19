@@ -64,6 +64,14 @@ body {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
+.site-slogan {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+}
+
 /* --- DIVIDER --- */
 .divider {
   text-align: center;
