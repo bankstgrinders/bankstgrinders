@@ -49,12 +49,12 @@ body {
 }
 
 .logo {
-  width: 260px;
-  height: 260px;
+  width: 280px;
+  height: 280px;
   object-fit: contain;
   border-radius: 50%;
   background-color: white;
-  padding: 20px;
+  padding: 35px;
 }
 
 .site-title {
