@@ -35,7 +35,7 @@ body {
 
 /* --- HEADER --- */
 .site-header {
-  background-color: var(--brown-dark);
+  background-color: #000000;
   padding: 24px 20px;
   text-align: center;
   border-bottom: 4px solid var(--gold);
@@ -207,7 +207,7 @@ body {
 
 /* --- FOOTER --- */
 .site-footer {
-  background-color: var(--brown-dark);
+  background-color: #000000;
   color: var(--parchment);
   text-align: center;
   padding: 18px 20px;
