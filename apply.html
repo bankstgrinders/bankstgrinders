@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply | Bank St. Grinders</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <img src="500_white_logo.png" alt="Bank St. Grinders Logo" class="logo" />
+      <h1 class="site-title">Bank St. Grinders</h1>
+      <p class="site-slogan">Come experience heaven on a hogie</p>
+    </div>
+  </header>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <span>&#9670; &#9670; &#9670;</span>
+  </div>
+
+  <!-- APPLICATION FORM -->
+  <main class="apply-main">
+    <h2 class="apply-heading">Join Our Team</h2>
+    <p class="apply-subheading">Fill out the form below and we'll be in touch.</p>
+
+    <form class="apply-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="(928) 555-1234" required />
+      </div>
+
+      <div class="form-group">
+        <label for="availability">Availability</label>
+        <textarea id="availability" name="availability" rows="3" placeholder="e.g. Monday–Friday, 9am–5pm. Weekends available." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="experience">Work Experience</label>
+        <textarea id="experience" name="experience" rows="4" placeholder="List any previous jobs and references." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="why">Why do you want to work here?</label>
+        <textarea id="why" name="why" rows="4" placeholder="Tell us a little about yourself and why you'd be a great fit." required></textarea>
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+      </div>
+
+    </form>
+
+    <div class="back-link">
+      <a href="index.html" class="btn btn-secondary">&larr; Back to Home</a>
+    </div>
+  </main>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <span>&#9670; &#9670; &#9670;</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Bank St. Grinders &mdash; Kingman, AZ. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

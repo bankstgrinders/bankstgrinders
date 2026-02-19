@@ -68,7 +68,7 @@ body {
   font-family: 'Lora', Georgia, serif;
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   font-style: italic;
-  color: var(--gold);
+  color: #ffffff;
   letter-spacing: 0.03em;
 }
 
@@ -282,6 +282,77 @@ body {
 .mobile-menu-text {
   font-size: 1.1rem;
   color: var(--text-muted);
+}
+
+/* --- APPLY PAGE --- */
+.apply-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  background-color: var(--cream);
+}
+
+.apply-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--red-deli);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.apply-subheading {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.apply-form {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown-mid);
+  letter-spacing: 0.03em;
+}
+
+.form-group input,
+.form-group textarea {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: #fff;
+  border: 2px solid var(--parchment);
+  border-radius: 4px;
+  padding: 12px 14px;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--red-deli);
+}
+
+.form-submit {
+  margin-top: 8px;
 }
 
 /* --- RESPONSIVE --- */
