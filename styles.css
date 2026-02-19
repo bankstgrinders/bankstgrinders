@@ -261,7 +261,35 @@ body {
   margin-top: 32px;
 }
 
+/* Mobile menu button - hidden on desktop */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.mobile-menu-text {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
 /* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  /* Hide PDF embed on mobile */
+  .pdf-container,
+  .pdf-fallback {
+    display: none;
+  }
+
+  /* Show the tap-to-open button on mobile */
+  .mobile-menu {
+    display: flex;
+  }
+}
+
 @media (max-width: 480px) {
   .btn {
     width: 100%;

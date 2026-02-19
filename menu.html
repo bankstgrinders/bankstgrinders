@@ -28,7 +28,7 @@
   <main class="menu-main">
     <h2 class="menu-heading">Our Menu</h2>
 
-    <!-- PDF VIEWER -->
+    <!-- PDF VIEWER - desktop only -->
     <div class="pdf-container">
       <embed
         src="menu.pdf#navpanes=0"
@@ -37,12 +37,16 @@
         height="100%"
       />
     </div>
-
-    <!-- FALLBACK LINK for mobile browsers that don't support PDF embed -->
     <p class="pdf-fallback">
       Can't see the menu?
       <a href="menu.pdf" target="_blank">Click here to open it</a>
     </p>
+
+    <!-- MOBILE BUTTON - shown on mobile instead of the embed -->
+    <div class="mobile-menu">
+      <p class="mobile-menu-text">Tap below to view our full menu</p>
+      <a href="menu.pdf" target="_blank" class="btn btn-primary">Open Menu</a>
+    </div>
 
     <!-- BACK BUTTON -->
     <div class="back-link">
