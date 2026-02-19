@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu | Bank St. Grinders</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <img src="logo.jpg" alt="Bank St. Grinders Logo" class="logo" />
+      <h1 class="site-title">Bank St. Grinders</h1>
+    </div>
+  </header>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <span>&#9670; &#9670; &#9670;</span>
+  </div>
+
+  <!-- MENU SECTION -->
+  <main class="menu-main">
+    <h2 class="menu-heading">Our Menu</h2>
+
+    <!-- PDF VIEWER -->
+    <div class="pdf-container">
+      <embed
+        src="menu.pdf"
+        type="application/pdf"
+        width="100%"
+        height="100%"
+      />
+    </div>
+
+    <!-- FALLBACK LINK for mobile browsers that don't support PDF embed -->
+    <p class="pdf-fallback">
+      Can't see the menu?
+      <a href="menu.pdf" target="_blank">Click here to open it</a>
+    </p>
+
+    <!-- BACK BUTTON -->
+    <div class="back-link">
+      <a href="index.html" class="btn btn-secondary">&larr; Back to Home</a>
+    </div>
+  </main>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <span>&#9670; &#9670; &#9670;</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Bank St. Grinders &mdash; Kingman, AZ. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

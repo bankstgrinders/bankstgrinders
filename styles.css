@@ -216,6 +216,51 @@ body {
   opacity: 0.95;
 }
 
+/* --- MENU PAGE --- */
+.menu-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px;
+  background-color: var(--cream);
+}
+
+.menu-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--red-deli);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.pdf-container {
+  width: 100%;
+  max-width: 900px;
+  height: 80vh;
+  border: 3px solid var(--gold);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.pdf-fallback {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.pdf-fallback a {
+  color: var(--red-deli);
+  font-weight: 600;
+}
+
+.back-link {
+  margin-top: 32px;
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 480px) {
   .btn {
