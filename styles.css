@@ -1,0 +1,231 @@
+/* =============================================
+   Bank St. Grinders - Classic Deli Style
+   ============================================= */
+
+/* --- RESET & BASE --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream:      #f5f0e8;
+  --parchment:  #e8dfc8;
+  --brown-dark: #3b2314;
+  --brown-mid:  #6b3f23;
+  --red-deli:   #8b1a1a;
+  --gold:       #c49a3c;
+  --text-dark:  #2a1a0e;
+  --text-muted: #6b5040;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--text-dark);
+  font-family: 'Lora', Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- HEADER --- */
+.site-header {
+  background-color: var(--brown-dark);
+  padding: 24px 20px;
+  text-align: center;
+  border-bottom: 4px solid var(--gold);
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  max-width: 160px;
+  max-height: 160px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.site-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: var(--cream);
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* --- DIVIDER --- */
+.divider {
+  text-align: center;
+  color: var(--gold);
+  font-size: 1.1rem;
+  letter-spacing: 0.5em;
+  padding: 14px 0;
+  background-color: var(--parchment);
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+}
+
+/* --- HERO SECTION --- */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  background-color: var(--cream);
+}
+
+.tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--red-deli);
+  margin-bottom: 12px;
+}
+
+.sub-tagline {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--text-muted);
+  max-width: 500px;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+
+/* --- BUTTONS --- */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 16px 40px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background-color: var(--red-deli);
+  color: var(--cream);
+  border-color: var(--red-deli);
+}
+
+.btn-primary:hover {
+  background-color: var(--brown-dark);
+  border-color: var(--brown-dark);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--red-deli);
+  border-color: var(--red-deli);
+}
+
+.btn-secondary:hover {
+  background-color: var(--red-deli);
+  color: var(--cream);
+}
+
+/* --- INFO SECTION --- */
+.info-section {
+  background-color: var(--parchment);
+  padding: 48px 24px;
+  border-top: 2px solid var(--gold);
+}
+
+.info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.info-block {
+  text-align: center;
+  min-width: 160px;
+}
+
+.info-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brown-mid);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 6px;
+  display: inline-block;
+}
+
+.info-block address,
+.info-block p {
+  font-style: normal;
+  color: var(--text-dark);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.phone-link {
+  color: var(--red-deli);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.phone-link:hover {
+  text-decoration: underline;
+}
+
+/* --- FOOTER --- */
+.site-footer {
+  background-color: var(--brown-dark);
+  color: var(--parchment);
+  text-align: center;
+  padding: 18px 20px;
+  font-size: 0.85rem;
+  border-top: 3px solid var(--gold);
+  opacity: 0.95;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+
+  .info-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
