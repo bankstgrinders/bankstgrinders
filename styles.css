@@ -100,6 +100,15 @@ body {
   transition: opacity 0.2s;
 }
 
+.divider-social-label {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--brown-dark);
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
 .divider-social a[aria-label="Facebook"] { color: #1877F2; }
 .divider-social a[aria-label="TikTok"] { color: #000000; }
 
