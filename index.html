@@ -266,7 +266,6 @@
   </section>
 
   <script>
-    const VISIBLE = 3;
     const GAP = 20;
     let currentIndex = 0;
     let autoTimer = null;
@@ -276,10 +275,16 @@
     const cards = Array.from(track.querySelectorAll('.review-card'));
     const dotsContainer = document.getElementById('carouselDots');
     const total = cards.length;
-    const maxIndex = total - VISIBLE;
+
+    function getVisible() {
+      if (window.innerWidth <= 600) return 1;
+      if (window.innerWidth <= 900) return 2;
+      return 3;
+    }
 
     function cardWidth() {
-      return (outer.offsetWidth - GAP * (VISIBLE - 1)) / VISIBLE;
+      const v = getVisible();
+      return (outer.offsetWidth - GAP * (v - 1)) / v;
     }
 
     function sizeCards() {
@@ -287,7 +292,20 @@
       cards.forEach(c => { c.style.width = w + 'px'; });
     }
 
+    function rebuildDots() {
+      dotsContainer.innerHTML = '';
+      const maxIndex = total - getVisible();
+      for (let i = 0; i <= maxIndex; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
+        dot.setAttribute('aria-label', 'Review ' + (i + 1));
+        dot.onclick = () => { goTo(i); resetTimer(); };
+        dotsContainer.appendChild(dot);
+      }
+    }
+
     function goTo(index) {
+      const maxIndex = total - getVisible();
       currentIndex = Math.max(0, Math.min(index, maxIndex));
       const offset = currentIndex * (cardWidth() + GAP);
       track.style.transform = 'translateX(-' + offset + 'px)';
@@ -297,6 +315,7 @@
     }
 
     function moveCarousel(dir) {
+      const maxIndex = total - getVisible();
       const next = currentIndex + dir;
       goTo(next > maxIndex ? 0 : next < 0 ? maxIndex : next);
       resetTimer();
@@ -307,20 +326,15 @@
       autoTimer = setInterval(() => moveCarousel(1), 15000);
     }
 
-    // Build dots
-    for (let i = 0; i <= maxIndex; i++) {
-      const dot = document.createElement('button');
-      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', 'Review ' + (i + 1));
-      dot.onclick = () => { goTo(i); resetTimer(); };
-      dotsContainer.appendChild(dot);
+    function init() {
+      sizeCards();
+      rebuildDots();
+      goTo(0);
+      resetTimer();
     }
 
-    // Init
-    sizeCards();
-    goTo(0);
-    resetTimer();
-    window.addEventListener('resize', () => { sizeCards(); goTo(currentIndex); });
+    init();
+    window.addEventListener('resize', () => { sizeCards(); rebuildDots(); goTo(currentIndex); });
 
     // Swipe support
     let startX = 0;
