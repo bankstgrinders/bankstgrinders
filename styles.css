@@ -727,6 +727,11 @@ body {
 
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
+  /* Reduce zoom on food photos so they don't get cut off */
+  .slide {
+    transform: scale(1.03);
+  }
+
   /* Hero: stack to single column */
   .hero {
     grid-template-columns: 1fr;
