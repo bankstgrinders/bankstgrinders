@@ -49,10 +49,10 @@ body {
 }
 
 .logo {
-  width: 320px;
-  height: 110px;
-  object-fit: contain;
-  border-radius: 12px;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .site-title {
@@ -852,8 +852,8 @@ body {
 
   /* Logo */
   .logo {
-    width: 220px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
   }
 
   /* Reviews carousel: 1 card on mobile */
