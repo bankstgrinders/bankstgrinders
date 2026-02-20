@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
@@ -16,7 +17,7 @@
     <div class="header-inner">
       <img src="500_white_logo.png" alt="Bank St. Grinders Logo" class="logo" />
       <h1 class="site-title">Bank St. Grinders</h1>
-      <p class="site-slogan">Come experience heaven on a hogie</p>
+      <p class="site-slogan">Come experience heaven on a hoagie!</p>
     </div>
   </header>
 
@@ -27,20 +28,216 @@
 
   <!-- HERO SECTION -->
   <main class="hero">
-    <p class="tagline">Fresh. Stacked. Delicious.</p>
-    <p class="sub-tagline">Kingman's favorite deli — made with care, served with pride.</p>
-
-    <!-- MAIN BUTTONS -->
-    <div class="button-group">
-      <a href="menu.html" class="btn btn-primary">View Our Menu</a>
-      <a href="apply.html" class="btn btn-secondary">Apply for a Job</a>
+    <div class="hero-text">
+      <p class="tagline">Fresh. Stacked. Delicious.</p>
+      <p class="sub-tagline">Kingman's favorite deli — made with care, served with pride.</p>
     </div>
-  </main>
+
+    <!-- PHOTO SLIDESHOW -->
+    <div class="slideshow">
+      <div class="slideshow-track">
+        <img src="photos/family1.png" alt="Bank St. Grinders family" class="slide slide-full active" />
+        <img src="photos/Screenshot_20260219_191825_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" />
+        <img src="photos/Screenshot_20260219_191857_Yelp_Biz.jpg" alt="Bank St. Grinders cheesesteak" class="slide" />
+        <img src="photos/Screenshot_20260219_191935_Yelp_Biz.jpg" alt="Bank St. Grinders hoagie" class="slide" />
+        <img src="photos/Screenshot_20260219_192008_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" />
+      </div>
+      <div class="slideshow-dots" id="slideshowDots"></div>
+    </div>
+
+    <!-- LOCATION WIDGET -->
+    <div class="location-widget">
+
+      <!-- STATUS BAR -->
+      <div class="widget-status-bar" id="statusBar" onclick="toggleHours()">
+        <span class="widget-status-label" id="statusLabel"></span>
+        <span class="widget-hours-today" id="hoursToday"></span>
+        <i class="fa-solid fa-chevron-down widget-chevron" id="hoursChevron"></i>
+      </div>
+
+      <!-- HOURS DROPDOWN -->
+      <div class="widget-hours-dropdown" id="hoursDropdown">
+        <div class="widget-hours-row"><span>Monday</span><span>9:00 AM – 6:00 PM</span></div>
+        <div class="widget-hours-row"><span>Tuesday</span><span>9:00 AM – 6:00 PM</span></div>
+        <div class="widget-hours-row"><span>Wednesday</span><span>9:00 AM – 6:00 PM</span></div>
+        <div class="widget-hours-row"><span>Thursday</span><span>9:00 AM – 6:00 PM</span></div>
+        <div class="widget-hours-row"><span>Friday</span><span>9:00 AM – 6:00 PM</span></div>
+        <div class="widget-hours-row closed-row"><span>Saturday</span><span>Closed</span></div>
+        <div class="widget-hours-row closed-row"><span>Sunday</span><span>Closed</span></div>
+      </div>
+
+      <!-- MAP -->
+      <div class="widget-map">
+        <iframe
+          src="https://maps.google.com/maps?q=4395+N+Bank+St,+Kingman,+AZ+86409&output=embed&z=16"
+          width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="Bank St. Grinders location">
+        </iframe>
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div class="widget-contact">
+        <div class="widget-contact-row">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>4395 N Bank St, Kingman, AZ 86409</span>
+        </div>
+        <div class="widget-contact-row">
+          <i class="fa-solid fa-phone"></i>
+          <a href="tel:+19286927667">(928) 692-7667</a>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="widget-actions">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=4395+N+Bank+St,+Kingman,+AZ+86409" target="_blank" rel="noopener" class="widget-btn widget-btn-primary">
+          <i class="fa-solid fa-diamond-turn-right"></i> Get Directions
+        </a>
+        <a href="menu.html" class="widget-btn widget-btn-secondary">
+          <i class="fa-solid fa-bars"></i> View Menu
+        </a>
+      </div>
+
+    </div>
+  </main><!-- end .hero -->
+
+  <script>
+    // --- PHOTO SLIDESHOW ---
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const dotsEl = document.getElementById('slideshowDots');
+      let current = 0;
+
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'ss-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Photo ' + (i + 1));
+        dot.onclick = () => showSlide(i);
+        dotsEl.appendChild(dot);
+      });
+
+      function showSlide(n) {
+        slides[current].classList.remove('active');
+        document.querySelectorAll('.ss-dot')[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        document.querySelectorAll('.ss-dot')[current].classList.add('active');
+      }
+
+      setInterval(() => showSlide(current + 1), 4000);
+    })();
+  </script>
+
+  <script>
+    const HOURS = { open: 9, close: 18 }; // 9am - 6pm
+    const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    function isOpen() {
+      const now = new Date();
+      const day = now.getDay(); // 0=Sun, 6=Sat
+      const hour = now.getHours() + now.getMinutes() / 60;
+      return day >= 1 && day <= 5 && hour >= HOURS.open && hour < HOURS.close;
+    }
+
+    function todayHours() {
+      const day = new Date().getDay();
+      return (day >= 1 && day <= 5) ? '9:00 AM – 6:00 PM' : 'Closed';
+    }
+
+    function updateStatus() {
+      const label = document.getElementById('statusLabel');
+      const hours = document.getElementById('hoursToday');
+      const day = new Date().getDay();
+      const open = isOpen();
+      label.textContent = open ? 'Open' : 'Closed';
+      label.className = 'widget-status-label ' + (open ? 'status-open' : 'status-closed');
+      hours.textContent = DAYS[day] + '  ' + todayHours();
+    }
+
+    function toggleHours() {
+      const dropdown = document.getElementById('hoursDropdown');
+      const chevron = document.getElementById('hoursChevron');
+      const open = dropdown.classList.toggle('visible');
+      chevron.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    updateStatus();
+  </script>
 
   <!-- DIVIDER -->
   <div class="divider">
     <span>&#9670; &#9670; &#9670;</span>
   </div>
+
+  <!-- REVIEWS SECTION -->
+  <section class="reviews-section">
+    <h2 class="reviews-heading">What People Are Saying</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-arrow carousel-prev" onclick="moveCarousel(-1)" aria-label="Previous review">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="carousel-track-outer">
+        <div class="carousel-track" id="reviewTrack">
+
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span class="review-badge review-badge-tripadvisor"><i class="fa-brands fa-tripadvisor"></i> TripAdvisor</span>
+            </div>
+            <p class="review-text">"These sandwiches were amazing! The perfect ratio of fresh-baked bread, savory meat, crisp veggies, and tasty condiments."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span class="review-badge review-badge-tripadvisor"><i class="fa-brands fa-tripadvisor"></i> TripAdvisor</span>
+            </div>
+            <p class="review-text">"The very best deli sandwich not only in Kingman, but far beyond. Staff is very accommodating and friendly."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span class="review-badge review-badge-yelp"><i class="fa-brands fa-yelp"></i> Yelp</span>
+            </div>
+            <p class="review-text">"One of the best beef dips I've ever had. Bread was so fresh, plenty of melt in your mouth roast beef, and I chose provolone cheese."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span class="review-badge review-badge-yelp"><i class="fa-brands fa-yelp"></i> Yelp</span>
+            </div>
+            <p class="review-text">"What a diamond in the desert... WELL WORTH IT. Customer service 100%. Food 100%."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span class="review-badge review-badge-google"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
+            <p class="review-text">"Great food. Great people. Great value. Great service."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span class="review-badge review-badge-google"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
+            <p class="review-text">"I was craving fresh bread, and my goodness did Bank Street Grinders DELIVER!"</p>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="carousel-arrow carousel-next" onclick="moveCarousel(1)" aria-label="Next review">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- DOTS -->
+    <div class="carousel-dots" id="carouselDots"></div>
+  </section>
 
   <!-- INFO SECTION -->
   <section class="info-section">
@@ -62,15 +259,95 @@
 
       <div class="info-block">
         <h2 class="info-heading">Call Us</h2>
-        <a href="tel:+19286927667" class="phone-link">(928) 692-7667</a>
+        <p><a href="tel:+19286927667" class="phone-link">(928) 692-7667</a></p>
       </div>
 
     </div>
   </section>
 
+  <script>
+    const VISIBLE = 3;
+    const GAP = 20;
+    let currentIndex = 0;
+    let autoTimer = null;
+
+    const track = document.getElementById('reviewTrack');
+    const outer = track.parentElement;
+    const cards = Array.from(track.querySelectorAll('.review-card'));
+    const dotsContainer = document.getElementById('carouselDots');
+    const total = cards.length;
+    const maxIndex = total - VISIBLE;
+
+    function cardWidth() {
+      return (outer.offsetWidth - GAP * (VISIBLE - 1)) / VISIBLE;
+    }
+
+    function sizeCards() {
+      const w = cardWidth();
+      cards.forEach(c => { c.style.width = w + 'px'; });
+    }
+
+    function goTo(index) {
+      currentIndex = Math.max(0, Math.min(index, maxIndex));
+      const offset = currentIndex * (cardWidth() + GAP);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+      document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function moveCarousel(dir) {
+      const next = currentIndex + dir;
+      goTo(next > maxIndex ? 0 : next < 0 ? maxIndex : next);
+      resetTimer();
+    }
+
+    function resetTimer() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => moveCarousel(1), 15000);
+    }
+
+    // Build dots
+    for (let i = 0; i <= maxIndex; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Review ' + (i + 1));
+      dot.onclick = () => { goTo(i); resetTimer(); };
+      dotsContainer.appendChild(dot);
+    }
+
+    // Init
+    sizeCards();
+    goTo(0);
+    resetTimer();
+    window.addEventListener('resize', () => { sizeCards(); goTo(currentIndex); });
+
+    // Swipe support
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+    track.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) moveCarousel(diff > 0 ? 1 : -1);
+    });
+  </script>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <span>&#9670; &#9670; &#9670;</span>
+  </div>
+
+  <!-- APPLY BUTTON -->
+  <div class="apply-cta">
+    <a href="apply.html" class="btn btn-secondary">Apply for a Job</a>
+  </div>
+
   <!-- FOOTER -->
   <footer class="site-footer">
-    <p>&copy; 2026 Bank St. Grinders &mdash; Kingman, AZ. All rights reserved.</p>
+    <p>Family owned and operated since 2012.</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/BankStGrinders/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+      <a href="https://www.tiktok.com/@bankstgrinders" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    </div>
   </footer>
 
 </body>
