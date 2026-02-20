@@ -729,7 +729,7 @@ body {
 @media (max-width: 900px) {
   /* Reduce zoom on food photos so they don't get cut off */
   .slide {
-    transform: scale(1.03);
+    transform: scale(1.0);
   }
 
   /* Hero: stack to single column */
