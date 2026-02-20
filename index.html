@@ -28,11 +28,6 @@
 
   <!-- HERO SECTION -->
   <main class="hero">
-    <div class="hero-text">
-      <p class="tagline">Fresh. Stacked. Delicious.</p>
-      <p class="sub-tagline">Kingman's favorite deli — made with care, served with pride.</p>
-    </div>
-
     <!-- PHOTO SLIDESHOW -->
     <div class="slideshow">
       <div class="slideshow-track">
@@ -43,15 +38,19 @@
         <img src="photos/Screenshot_20260219_192008_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" />
       </div>
       <div class="slideshow-dots" id="slideshowDots"></div>
+      <a href="menu.html" class="btn btn-primary slideshow-menu-btn">View Our Menu</a>
     </div>
 
     <!-- LOCATION WIDGET -->
     <div class="location-widget">
 
+      <!-- HOURS LABEL -->
+      <div class="widget-section-label">Hours</div>
+
       <!-- STATUS BAR -->
       <div class="widget-status-bar" id="statusBar" onclick="toggleHours()">
-        <span class="widget-status-label" id="statusLabel"></span>
         <span class="widget-hours-today" id="hoursToday"></span>
+        <span class="widget-status-label" id="statusLabel"></span>
         <i class="fa-solid fa-chevron-down widget-chevron" id="hoursChevron"></i>
       </div>
 
@@ -129,7 +128,7 @@
 
   <script>
     const HOURS = { open: 9, close: 18 }; // 9am - 6pm
-    const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
     function isOpen() {
       const now = new Date();
@@ -140,7 +139,16 @@
 
     function todayHours() {
       const day = new Date().getDay();
-      return (day >= 1 && day <= 5) ? '9:00 AM – 6:00 PM' : 'Closed';
+      return (day >= 1 && day <= 5) ? '9am – 6pm' : 'Closed';
+    }
+
+    function reopenText() {
+      const now = new Date();
+      const day = now.getDay();
+      const hour = now.getHours() + now.getMinutes() / 60;
+      if (day >= 1 && day <= 5 && hour < HOURS.open) return 'Opens today at 9am';
+      if ((day === 5 && hour >= HOURS.close) || day === 6 || day === 0) return 'Reopens Mon 9am';
+      return 'Reopens tomorrow at 9am';
     }
 
     function updateStatus() {
@@ -148,9 +156,14 @@
       const hours = document.getElementById('hoursToday');
       const day = new Date().getDay();
       const open = isOpen();
-      label.textContent = open ? 'Open' : 'Closed';
-      label.className = 'widget-status-label ' + (open ? 'status-open' : 'status-closed');
       hours.textContent = DAYS[day] + '  ' + todayHours();
+      if (open) {
+        label.textContent = 'Open';
+        label.className = 'widget-status-label status-open';
+      } else {
+        label.textContent = reopenText();
+        label.className = 'widget-status-label status-closed';
+      }
     }
 
     function toggleHours() {
