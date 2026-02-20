@@ -92,7 +92,7 @@
         <a href="https://www.google.com/maps/dir/?api=1&destination=4395+N+Bank+St,+Kingman,+AZ+86409" target="_blank" rel="noopener" class="widget-btn widget-btn-primary">
           <i class="fa-solid fa-diamond-turn-right"></i> Get Directions
         </a>
-        <a href="menu.html" class="widget-btn widget-btn-secondary">
+        <a href="menu.html" class="widget-btn widget-btn-secondary" id="menuBtn">
           <i class="fa-solid fa-bars"></i> View Menu
         </a>
       </div>
@@ -161,6 +161,13 @@
     }
 
     updateStatus();
+
+    // On mobile, View Menu goes straight to the PDF
+    if (window.innerWidth <= 900) {
+      const menuBtn = document.getElementById('menuBtn');
+      menuBtn.href = 'menu.pdf';
+      menuBtn.target = '_blank';
+    }
   </script>
 
   <!-- DIVIDER -->
