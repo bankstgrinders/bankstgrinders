@@ -95,14 +95,16 @@ body {
 }
 
 .divider-social a {
-  color: #000000;
   font-size: 1.2rem;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: opacity 0.2s;
 }
 
+.divider-social a[aria-label="Facebook"] { color: #1877F2; }
+.divider-social a[aria-label="TikTok"] { color: #000000; }
+
 .divider-social a:hover {
-  color: var(--red-deli);
+  opacity: 0.7;
 }
 
 /* --- HERO SECTION --- */
