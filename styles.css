@@ -759,6 +759,46 @@ body {
   margin-top: 8px;
 }
 
+/* --- THANK YOU PAGE --- */
+.thankyou-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background-color: var(--cream);
+}
+
+.thankyou-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  max-width: 520px;
+}
+
+.thankyou-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.thankyou-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--red-deli);
+}
+
+.thankyou-text {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.05rem;
+  color: var(--brown-dark);
+  line-height: 1.7;
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
   /* Reduce zoom on food photos so they don't get cut off */
