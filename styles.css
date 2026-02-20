@@ -74,14 +74,35 @@ body {
 
 /* --- DIVIDER --- */
 .divider {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--gold);
   font-size: 1.1rem;
   letter-spacing: 0.5em;
-  padding: 14px 0;
+  padding: 14px 24px;
   background-color: var(--parchment);
   border-top: 1px solid var(--red-deli);
   border-bottom: 1px solid var(--red-deli);
+  position: relative;
+}
+
+.divider-social {
+  display: flex;
+  gap: 16px;
+  position: absolute;
+  right: 24px;
+}
+
+.divider-social a {
+  color: var(--gold);
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.divider-social a:hover {
+  color: var(--red-deli);
 }
 
 /* --- HERO SECTION --- */
