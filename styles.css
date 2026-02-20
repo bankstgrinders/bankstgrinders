@@ -41,8 +41,8 @@ body {
     linear-gradient(-45deg, var(--red-deli) 25%, transparent 25%),
     linear-gradient(45deg, transparent 75%, var(--red-deli) 75%),
     linear-gradient(-45deg, transparent 75%, var(--red-deli) 75%);
-  background-size: 24px 24px;
-  background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+  background-size: 80px 80px;
+  background-position: 0 0, 0 40px, 40px -40px, -40px 0px;
   padding: 12px 20px;
   text-align: center;
   border-bottom: 4px solid var(--red-deli);
@@ -66,18 +66,18 @@ body {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 900;
-  color: var(--cream);
+  color: #000000;
   letter-spacing: 0.04em;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
+  text-shadow: none;
 }
 
 .site-slogan {
   font-family: 'Lora', Georgia, serif;
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   font-style: italic;
-  color: #ffffff;
+  color: #000000;
   letter-spacing: 0.03em;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.8), 0 0 16px rgba(0,0,0,0.6);
+  text-shadow: none;
 }
 
 /* --- DIVIDER --- */
