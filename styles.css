@@ -360,6 +360,77 @@ body {
   margin-top: 8px;
 }
 
+/* --- RATINGS WIDGET --- */
+.ratings-widget {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 16px;
+  padding-right: 8px;
+}
+
+.ratings-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+  text-align: right;
+  line-height: 1.3;
+  border-bottom: 2px solid var(--red-deli);
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.rating-icon {
+  font-size: 1.4rem;
+  width: 24px;
+  text-align: center;
+  order: 2;
+}
+
+.rating-google     { color: #4285F4; }
+.rating-yelp       { color: #d32323; }
+.rating-tripadvisor{ color: #34E0A1; }
+.rating-facebook   { color: #1877F2; }
+
+.rating-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  order: 1;
+}
+
+.rating-stars {
+  color: var(--gold);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.rating-score {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+}
+
+.rating-count {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
 /* --- LOCATION WIDGET --- */
 .location-widget {
   grid-column: 3;
@@ -857,6 +928,10 @@ body {
     justify-items: center;
     padding: 40px 24px;
     row-gap: 24px;
+  }
+
+  .ratings-widget {
+    display: none;
   }
 
   .hero-text {
