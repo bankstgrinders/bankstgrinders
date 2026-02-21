@@ -195,7 +195,7 @@ body {
 
 .btn-secondary {
   background-color: transparent;
-  color: var(--red-deli);
+  color: #000000;
   border-color: var(--red-deli);
 }
 
