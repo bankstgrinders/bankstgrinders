@@ -287,6 +287,8 @@ body {
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   border: 3px solid var(--red-deli);
+  cursor: pointer;
+  transition: opacity 0.3s;
 }
 
 .slide {

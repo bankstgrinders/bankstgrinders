@@ -109,7 +109,12 @@
     (function() {
       const slides = document.querySelectorAll('.slide');
       const dotsEl = document.getElementById('slideshowDots');
+      const track = document.querySelector('.slideshow-track');
       let current = 0;
+      let autoTimer = null;
+      let paused = false;
+      let startX = 0;
+      let didSwipe = false;
 
       slides.forEach((_, i) => {
         const dot = document.createElement('button');
@@ -127,7 +132,43 @@
         document.querySelectorAll('.ss-dot')[current].classList.add('active');
       }
 
-      setInterval(() => showSlide(current + 1), 4000);
+      function startAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => showSlide(current + 1), 4000);
+      }
+
+      function togglePause() {
+        paused = !paused;
+        if (paused) {
+          clearInterval(autoTimer);
+          track.style.opacity = '0.85';
+        } else {
+          startAuto();
+          track.style.opacity = '1';
+        }
+      }
+
+      // Swipe to change slides
+      track.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        didSwipe = false;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+          showSlide(current + (diff > 0 ? 1 : -1));
+          didSwipe = true;
+        }
+      });
+
+      // Tap to pause/resume (desktop click too)
+      track.addEventListener('click', () => {
+        if (!didSwipe) togglePause();
+        didSwipe = false;
+      });
+
+      startAuto();
     })();
   </script>
 
