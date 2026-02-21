@@ -366,10 +366,9 @@ body {
   grid-row: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: 16px;
-  padding-right: 8px;
 }
 
 .ratings-heading {
@@ -377,7 +376,7 @@ body {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--brown-dark);
-  text-align: right;
+  text-align: center;
   line-height: 1.3;
   border-bottom: 2px solid var(--red-deli);
   padding-bottom: 10px;
@@ -389,31 +388,28 @@ body {
   align-items: center;
   gap: 10px;
   width: 100%;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .rating-icon {
-  font-size: 1.4rem;
-  width: 24px;
+  font-size: 1.6rem;
+  width: 28px;
   text-align: center;
-  order: 2;
 }
 
-.rating-google     { color: #4285F4; }
-.rating-yelp       { color: #d32323; }
-.rating-tripadvisor{ color: #34E0A1; }
-.rating-facebook   { color: #1877F2; }
+.rating-google   { color: #EA4335; }
+.rating-yelp     { color: #d32323; }
+.rating-facebook { color: #1877F2; }
 
 .rating-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  order: 1;
+  align-items: flex-start;
 }
 
 .rating-stars {
-  color: var(--gold);
-  font-size: 0.8rem;
+  color: #FFD700;
+  font-size: 0.85rem;
   letter-spacing: 1px;
 }
 
