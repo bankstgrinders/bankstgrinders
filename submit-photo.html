@@ -36,7 +36,10 @@
     <h2 class="apply-heading"><i class="fa-solid fa-camera"></i> Show Us Your Sandwich!</h2>
     <p class="apply-subheading">Proud of what you ordered? Send us a pic — we'd love to see it!</p>
 
-    <form class="apply-form" id="photoForm">
+    <form class="apply-form" action="https://formsubmit.co/john@bankstgrinders.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_next" value="https://bankstgrinders.com/thankyou-photo.html" />
+      <input type="hidden" name="_subject" value="New Sandwich Photo Submission!" />
+      <input type="hidden" name="_captcha" value="false" />
 
       <div class="form-group">
         <label for="name">Your Name</label>
@@ -58,37 +61,6 @@
       </div>
 
     </form>
-
-    <script>
-      document.getElementById('photoForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button[type="submit"]');
-        btn.textContent = 'Sending…';
-        btn.disabled = true;
-
-        const formData = new FormData(this);
-        formData.append('_subject', 'New Sandwich Photo from ' + (formData.get('name') || 'a customer'));
-
-        try {
-          const response = await fetch('https://formsubmit.co/ajax/john@bankstgrinders.com', {
-            method: 'POST',
-            body: formData
-          });
-          const result = await response.json();
-          if (result.success === 'true' || result.success === true) {
-            window.location.href = 'thankyou-photo.html';
-          } else {
-            btn.textContent = 'Send It!';
-            btn.disabled = false;
-            alert('Something went wrong. Please try again.');
-          }
-        } catch {
-          btn.textContent = 'Send It!';
-          btn.disabled = false;
-          alert('Something went wrong. Please try again.');
-        }
-      });
-    </script>
 
     <div class="back-link">
       <a href="index.html" class="btn btn-secondary">&larr; Back to Home</a>

@@ -368,7 +368,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  justify-self: center;
+  justify-self: end;
   gap: 16px;
 }
 
