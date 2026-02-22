@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leave a Review | Bank St. Grinders</title>
+  <title>Share Your Experience | Bank St. Grinders</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,19 +31,24 @@
     </div>
   </div>
 
-  <!-- REVIEW FORM -->
+  <!-- COMBINED FORM -->
   <main class="apply-main">
-    <h2 class="apply-heading"><i class="fa-solid fa-star"></i> Leave a Review</h2>
-    <p class="apply-subheading">We'd love to hear about your experience! Your review may be featured on our website.</p>
+    <h2 class="apply-heading"><i class="fa-solid fa-star"></i> Share Your Experience</h2>
+    <p class="apply-subheading">We'd love to hear about your visit! Leave us a review and feel free to show off your grinder too.</p>
 
-    <form class="apply-form" action="https://formsubmit.co/john@bankstgrinders.com" method="POST">
+    <form class="apply-form" action="https://formsubmit.co/john@bankstgrinders.com" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_next" value="https://bankstgrinders.com/thankyou-review.html" />
-      <input type="hidden" name="_subject" value="New Website Review Submission!" />
+      <input type="hidden" name="_subject" value="New Experience Submission!" />
       <input type="hidden" name="_captcha" value="false" />
 
       <div class="form-group">
         <label for="name">Your Name</label>
         <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+      </div>
+
+      <div class="form-group">
+        <label for="sandwich">What did you order? <span class="label-optional">(optional)</span></label>
+        <input type="text" id="sandwich" name="grinder" placeholder="e.g. Beef Dip, Italian Grinder..." />
       </div>
 
       <div class="form-group">
@@ -67,8 +72,13 @@
         <textarea id="review" name="review" rows="5" placeholder="Tell us about your visit..." required></textarea>
       </div>
 
+      <div class="form-group">
+        <label for="photo">Got a photo? <span class="label-optional">(optional)</span></label>
+        <input type="file" id="photo" name="photo" accept="image/*" class="file-input" />
+      </div>
+
       <div class="form-submit">
-        <button type="submit" class="btn btn-primary">Submit Review</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
 

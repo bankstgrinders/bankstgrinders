@@ -927,6 +927,44 @@ body {
   margin-top: 8px;
 }
 
+.form-section-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+}
+
+.form-job-block {
+  background: var(--parchment);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-job-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--red-deli);
+  margin-bottom: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
 .file-input {
   font-family: 'Lora', Georgia, serif;
   font-size: 1rem;
@@ -941,6 +979,12 @@ body {
 .file-input:focus {
   outline: none;
   border-color: var(--red-deli);
+}
+
+.label-optional {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 /* --- STAR RATING --- */
