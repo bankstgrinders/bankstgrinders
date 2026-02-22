@@ -362,13 +362,15 @@ body {
 
 /* --- RATINGS WIDGET --- */
 .ratings-widget {
-  grid-column: 3;
+  grid-column: 1;
   grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  align-self: start;
+  align-self: center;
+  justify-self: end;
+  width: 180px;
   gap: 16px;
 }
 
