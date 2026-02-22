@@ -33,45 +33,11 @@
 
   <!-- HERO SECTION -->
   <main class="hero">
-    <!-- RATINGS WIDGET -->
-    <div class="ratings-widget">
-      <h3 class="ratings-heading">Rated Among<br/>The Best</h3>
-
-      <a class="rating-row" href="https://www.google.com/maps/place/Bank+Street+Grinders/@35.2185,-114.0135,17z" target="_blank" rel="noopener">
-        <i class="fa-brands fa-google rating-icon rating-google"></i>
-        <div class="rating-info">
-          <div class="rating-stars">
-            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-          </div>
-          <div class="rating-score">4.8 <span class="rating-count">· 436 reviews</span></div>
-        </div>
-      </a>
-
-      <a class="rating-row" href="https://www.yelp.com/biz/bank-street-grinders-kingman" target="_blank" rel="noopener">
-        <i class="fa-brands fa-yelp rating-icon rating-yelp"></i>
-        <div class="rating-info">
-          <div class="rating-stars">
-            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-          </div>
-          <div class="rating-score">4.7 <span class="rating-count">· 150 reviews</span></div>
-        </div>
-      </a>
-
-      <a class="rating-row" href="https://www.facebook.com/BankStGrinders/" target="_blank" rel="noopener">
-        <i class="fa-brands fa-facebook rating-icon rating-facebook"></i>
-        <div class="rating-info">
-          <div class="rating-stars">
-            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-          </div>
-          <div class="rating-score">4.9 <span class="rating-count">· 65 reviews</span></div>
-        </div>
-      </a>
-    </div>
-
     <!-- PHOTO SLIDESHOW -->
     <div class="slideshow">
       <div class="slideshow-track">
         <img src="photos/family1.png" alt="Bank St. Grinders family" class="slide slide-full active" />
+        <img src="photos/grinder.jpg" alt="Bank St. Grinders grinder" class="slide" />
         <img src="photos/Screenshot_20260219_191825_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" />
         <img src="photos/Screenshot_20260219_191857_Yelp_Biz.jpg" alt="Bank St. Grinders cheesesteak" class="slide" />
         <img src="photos/Screenshot_20260219_191935_Yelp_Biz.jpg" alt="Bank St. Grinders hoagie" class="slide" />
@@ -260,7 +226,7 @@
     // On mobile, View Menu goes straight to the PDF
     if (window.innerWidth <= 900) {
       const menuBtn = document.getElementById('menuBtn');
-      menuBtn.href = 'menu.pdf';
+      menuBtn.href = 'menu/menu.pdf';
       menuBtn.target = '_blank';
     }
   </script>
@@ -273,6 +239,42 @@
   <!-- REVIEWS SECTION -->
   <section class="reviews-section">
     <h2 class="reviews-heading">What People Are Saying</h2>
+
+    <!-- RATINGS WIDGET -->
+    <div class="ratings-widget">
+      <h3 class="ratings-heading">Rated Among The Best</h3>
+
+      <a class="rating-row" href="https://www.google.com/maps/place/Bank+Street+Grinders/@35.2185,-114.0135,17z" target="_blank" rel="noopener">
+        <i class="fa-brands fa-google rating-icon rating-google"></i>
+        <div class="rating-info">
+          <div class="rating-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <div class="rating-score">4.8 <span class="rating-count">· 436 reviews</span></div>
+        </div>
+      </a>
+
+      <a class="rating-row" href="https://www.yelp.com/biz/bank-street-grinders-kingman" target="_blank" rel="noopener">
+        <i class="fa-brands fa-yelp rating-icon rating-yelp"></i>
+        <div class="rating-info">
+          <div class="rating-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <div class="rating-score">4.7 <span class="rating-count">· 150 reviews</span></div>
+        </div>
+      </a>
+
+      <a class="rating-row" href="https://www.facebook.com/BankStGrinders/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-facebook rating-icon rating-facebook"></i>
+        <div class="rating-info">
+          <div class="rating-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <div class="rating-score">4.9 <span class="rating-count">· 65 reviews</span></div>
+        </div>
+      </a>
+    </div>
+
     <div class="carousel-wrapper">
       <button class="carousel-arrow carousel-prev" onclick="moveCarousel(-1)" aria-label="Previous review">
         <i class="fa-solid fa-chevron-left"></i>

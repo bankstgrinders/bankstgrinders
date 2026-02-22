@@ -32,15 +32,91 @@
   </div>
 
   <!-- CATERING SECTION -->
-  <main class="thankyou-main">
-    <div class="thankyou-box">
-      <img src="500_white_logo.png" alt="Bank St. Grinders Logo" class="thankyou-logo" />
-      <h2 class="thankyou-heading">Catering Coming Soon!</h2>
-      <p class="thankyou-text">We're working on bringing Bank St. Grinders catering to your next event. In the meantime, give us a call and we'll work something out!</p>
+  <main class="catering-main">
+
+    <h2 class="thankyou-heading">Catering Available!</h2>
+
+    <div class="catering-slideshow">
+      <div class="catering-slideshow-track" id="cateringTrack">
+        <img src="catering-photos/20240629_122628.jpg" alt="Bank St. Grinders catering" class="slide slide-full active" />
+        <img src="catering-photos/20250318_104501.jpg" alt="Bank St. Grinders catering" class="slide slide-full" />
+      </div>
+      <div class="slideshow-dots" id="cateringDots"></div>
+    </div>
+
+    <div class="catering-info">
+      <p class="thankyou-text">Bringing Bank St. Grinders to your next event is easy — just give us a call or shoot us an email and we'll put something together for you!</p>
       <a href="tel:+19286927667" class="btn btn-primary"><i class="fa-solid fa-phone"></i> (928) 692-7667</a>
+      <a href="mailto:catering@bankstgrinders.com" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> catering@bankstgrinders.com</a>
       <a href="index.html" class="btn btn-secondary">&larr; Back to Home</a>
     </div>
+
   </main>
+
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('#cateringTrack .slide');
+      const dotsEl = document.getElementById('cateringDots');
+      const track = document.getElementById('cateringTrack');
+      let current = 0;
+      let autoTimer = null;
+      let paused = false;
+      let startX = 0;
+      let didSwipe = false;
+
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'ss-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Photo ' + (i + 1));
+        dot.onclick = () => showSlide(i);
+        dotsEl.appendChild(dot);
+      });
+
+      function showSlide(n) {
+        slides[current].classList.remove('active');
+        document.querySelectorAll('#cateringDots .ss-dot')[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        document.querySelectorAll('#cateringDots .ss-dot')[current].classList.add('active');
+      }
+
+      function startAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => showSlide(current + 1), 4000);
+      }
+
+      function togglePause() {
+        paused = !paused;
+        if (paused) {
+          clearInterval(autoTimer);
+          track.style.opacity = '0.85';
+        } else {
+          startAuto();
+          track.style.opacity = '1';
+        }
+      }
+
+      track.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        didSwipe = false;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+          showSlide(current + (diff > 0 ? 1 : -1));
+          didSwipe = true;
+        }
+      });
+
+      track.addEventListener('click', () => {
+        if (!didSwipe) togglePause();
+        didSwipe = false;
+      });
+
+      startAuto();
+    })();
+  </script>
 
   <!-- DIVIDER -->
   <div class="divider">

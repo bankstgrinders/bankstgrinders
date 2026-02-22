@@ -362,16 +362,11 @@ body {
 
 /* --- RATINGS WIDGET --- */
 .ratings-widget {
-  grid-column: 1;
-  grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  align-self: center;
-  justify-self: end;
-  width: 180px;
   gap: 16px;
+  margin: 0 auto 32px;
 }
 
 .ratings-heading {
@@ -964,34 +959,12 @@ body {
   /* Hero: stack to single column */
   .hero {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto;
     justify-items: center;
     padding: 40px 24px;
     row-gap: 24px;
   }
 
-
-  .ratings-widget {
-    grid-column: 1;
-    grid-row: 3;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 0 8px;
-  }
-
-  .ratings-heading {
-    width: 100%;
-    text-align: center;
-  }
-
-  .rating-row {
-    width: auto;
-    flex: 0 0 auto;
-  }
 
   .hero-text {
     grid-column: 1;
@@ -1004,7 +977,7 @@ body {
 
   .slideshow {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     width: 100%;
     max-width: 500px;
   }
@@ -1016,7 +989,7 @@ body {
 
   .location-widget {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
     width: 100%;
     max-width: 500px;
     justify-self: center;
@@ -1072,4 +1045,43 @@ body {
   .widget-btn {
     width: 100%;
   }
+}
+
+/* Catering page layout */
+.catering-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 16px 48px;
+}
+
+.catering-slideshow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.catering-slideshow-track {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  border: 3px solid var(--red-deli);
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.catering-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  max-width: 600px;
 }
