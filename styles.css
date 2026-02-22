@@ -369,6 +369,8 @@ body {
   align-items: center;
   justify-content: center;
   justify-self: end;
+  align-self: center;
+  width: fit-content;
   gap: 16px;
 }
 
