@@ -951,6 +951,7 @@ body {
     row-gap: 24px;
   }
 
+
   .ratings-widget {
     grid-column: 1;
     grid-row: 3;
