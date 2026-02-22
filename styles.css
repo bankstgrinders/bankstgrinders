@@ -937,6 +937,12 @@ body {
 
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
+  .divider-social {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
   /* Reduce zoom on food photos so they don't get cut off */
   .slide {
     transform: scale(1.0);
