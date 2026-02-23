@@ -473,7 +473,7 @@ body {
 }
 
 .rating-stars {
-  color: #FFD700 !important;
+  color: var(--gold) !important;
   font-size: 1rem;
   letter-spacing: 1px;
 }
