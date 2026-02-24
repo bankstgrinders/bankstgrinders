@@ -18,6 +18,12 @@
       <img src="500_white_logo.png" alt="Bank St. Grinders Logo" class="logo" />
       <h1 class="site-title">Bank St. Grinders</h1>
       <p class="site-slogan">Come experience heaven on a hoagie!</p>
+      <nav class="site-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="catering.html">Catering</a>
+        <a href="apply.html">Apply</a>
+      </nav>
     </div>
   </header>
 
@@ -43,11 +49,11 @@
     <div class="slideshow">
       <div class="slideshow-track">
         <img src="photos/family1.png" alt="Bank St. Grinders family" class="slide slide-full active" />
-        <img src="photos/grinder.jpg" alt="Bank St. Grinders grinder" class="slide" />
-        <img src="photos/Screenshot_20260219_191825_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" />
-        <img src="photos/Screenshot_20260219_191857_Yelp_Biz.jpg" alt="Bank St. Grinders cheesesteak" class="slide" />
-        <img src="photos/Screenshot_20260219_191935_Yelp_Biz.jpg" alt="Bank St. Grinders hoagie" class="slide" style="object-position: center center;" />
-        <img src="photos/Screenshot_20260219_192008_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" />
+        <img src="photos/grinder.jpg" alt="Bank St. Grinders grinder" class="slide" loading="lazy" />
+        <img src="photos/Screenshot_20260219_191825_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" loading="lazy" />
+        <img src="photos/Screenshot_20260219_191857_Yelp_Biz.jpg" alt="Bank St. Grinders cheesesteak" class="slide" loading="lazy" />
+        <img src="photos/Screenshot_20260219_191935_Yelp_Biz.jpg" alt="Bank St. Grinders hoagie" class="slide" loading="lazy" style="object-position: center center;" />
+        <img src="photos/Screenshot_20260219_192008_Yelp_Biz.jpg" alt="Bank St. Grinders sandwich" class="slide" loading="lazy" />
       </div>
       <div class="slideshow-dots" id="slideshowDots"></div>
       <a href="menu.html" class="btn btn-primary slideshow-menu-btn">View Our Menu</a>
@@ -60,7 +66,7 @@
       <div class="widget-section-label">Hours</div>
 
       <!-- STATUS BAR -->
-      <div class="widget-status-bar" id="statusBar" onclick="toggleHours()">
+      <div class="widget-status-bar" id="statusBar" onclick="toggleHours()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleHours();}" tabindex="0" role="button" aria-expanded="false" aria-controls="hoursDropdown">
         <span class="widget-hours-today" id="hoursToday"></span>
         <span class="widget-status-label" id="statusLabel"></span>
         <i class="fa-solid fa-chevron-down widget-chevron" id="hoursChevron"></i>
@@ -215,7 +221,7 @@
         label.textContent = 'Open';
         label.className = 'widget-status-label status-open';
       } else {
-        label.textContent = reopenText();
+        label.innerHTML = '<span style="display:block;">Closed</span>' + reopenText();
         label.className = 'widget-status-label status-closed';
       }
     }
@@ -223,14 +229,16 @@
     function toggleHours() {
       const dropdown = document.getElementById('hoursDropdown');
       const chevron = document.getElementById('hoursChevron');
+      const statusBar = document.getElementById('statusBar');
       const open = dropdown.classList.toggle('visible');
       chevron.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+      statusBar.setAttribute('aria-expanded', open);
     }
 
     updateStatus();
 
     // On mobile, View Menu goes straight to the PDF
-    if (window.innerWidth <= 900) {
+    if (window.innerWidth <= 1100) {
       const menuBtn = document.getElementById('menuBtn');
       menuBtn.href = 'menu/menu.pdf';
       menuBtn.target = '_blank';
@@ -391,7 +399,7 @@
 
     function getVisible() {
       if (window.innerWidth <= 600) return 1;
-      if (window.innerWidth <= 900) return 2;
+      if (window.innerWidth <= 1100) return 2;
       return 3;
     }
 
