@@ -1,0 +1,6 @@
+# WSL Zone.Identifier metadata files
+*:Zone.Identifier
+
+# OS files
+.DS_Store
+Thumbs.db
