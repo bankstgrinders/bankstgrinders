@@ -4,3 +4,7 @@
 # OS files
 .DS_Store
 Thumbs.db
+
+# Reference screenshots (local only)
+ReferenceSC/
+reviews/
