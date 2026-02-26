@@ -26,7 +26,10 @@
   <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">
-      <img src="500_white_logo.png" alt="Bank St. Grinders Logo" class="logo" />
+      <picture>
+        <source srcset="500_white_logo.webp" type="image/webp" />
+        <img src="500_white_logo.png" alt="Bank St. Grinders Logo" class="logo" />
+      </picture>
       <h1 class="site-title">Bank St. Grinders</h1>
       <p class="site-slogan">Come experience heaven on a hoagie!</p>
       <nav class="site-nav">
@@ -56,10 +59,22 @@
     <div class="catering-slideshow">
       <div class="catering-slideshow-track" id="cateringTrack">
         <img src="catering-photos/IMG_20260225_224943.jpg" alt="Bank St. Grinders sub platter" class="slide slide-full active" />
-        <img src="catering-photos/IMG_0007.jpeg" alt="Bank St. Grinders catering" class="slide slide-full" />
-        <img src="catering-photos/20240629_122628.jpg" alt="Bank St. Grinders catering" class="slide slide-full" />
-        <img src="catering-photos/20250318_104501.jpg" alt="Bank St. Grinders catering" class="slide slide-full" />
-        <img src="catering-photos/20241218_094748.jpg" alt="Bank St. Grinders catering platters" class="slide slide-full" />
+        <picture class="slide slide-full">
+          <source srcset="catering-photos/IMG_0007.webp" type="image/webp" />
+          <img src="catering-photos/IMG_0007.jpeg" alt="Bank St. Grinders catering" />
+        </picture>
+        <picture class="slide slide-full">
+          <source srcset="catering-photos/20240629_122628.webp" type="image/webp" />
+          <img src="catering-photos/20240629_122628.jpg" alt="Bank St. Grinders catering" />
+        </picture>
+        <picture class="slide slide-full">
+          <source srcset="catering-photos/20250318_104501.webp" type="image/webp" />
+          <img src="catering-photos/20250318_104501.jpg" alt="Bank St. Grinders catering" />
+        </picture>
+        <picture class="slide slide-full">
+          <source srcset="catering-photos/20241218_094748.webp" type="image/webp" />
+          <img src="catering-photos/20241218_094748.jpg" alt="Bank St. Grinders catering platters" />
+        </picture>
       </div>
       <div class="slideshow-dots" id="cateringDots"></div>
     </div>
