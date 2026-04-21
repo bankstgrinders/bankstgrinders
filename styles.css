@@ -125,6 +125,7 @@ body {
   font-size: 1.2rem;
   text-decoration: none;
   transition: opacity 0.2s;
+  padding: 8px;
 }
 
 .divider-social-label {
@@ -1087,6 +1088,20 @@ body {
 }
 
 /* --- RESPONSIVE --- */
+/* --- RESPONSIVE: CATERING SLIDESHOW --- */
+@media (max-width: 1100px) {
+  .catering-slideshow-track {
+    height: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .catering-slideshow-track {
+    height: 280px;
+  }
+}
+
+/* --- RESPONSIVE --- */
 @media (max-width: 1100px) {
   .divider {
     flex-direction: column;
@@ -1177,6 +1192,11 @@ body {
     min-height: 44px;
   }
 
+  .form-group input,
+  .form-group textarea {
+    min-height: 44px;
+  }
+
   .menu-main {
     padding: 40px 0;
   }
@@ -1225,9 +1245,42 @@ body {
   }
 
   .carousel-arrow {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .site-nav {
+    gap: 4px;
+  }
+
+  .site-nav a {
+    padding: 12px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* --- RESPONSIVE: TABLET --- */
+@media (max-width: 768px) {
+  .slideshow-track {
+    height: 240px;
+  }
+
+  .reviews-section {
+    padding: 36px 16px;
+  }
+
+  .ratings-heading {
+    font-size: 1.3rem;
+  }
+
+  .rating-icon {
+    font-size: 1.5rem;
   }
 }
 
