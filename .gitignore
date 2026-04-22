@@ -8,3 +8,10 @@ Thumbs.db
 # Reference screenshots (local only)
 ReferenceSC/
 reviews/
+
+# TV admin runtime — regenerated on every save
+tv/data/backups/
+
+# Python
+__pycache__/
+*.pyc

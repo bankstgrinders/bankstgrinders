@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bank St. Grinders — Rotating Display</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="tv.css" />
+</head>
+<body>
+
+<div class="tv-rotate">
+  <div class="tv-stage" id="stageA"></div>
+  <div class="tv-stage" id="stageB"></div>
+</div>
+
+<script>
+(() => {
+  const stageA = document.getElementById('stageA');
+  const stageB = document.getElementById('stageB');
+  let current = stageA;
+  let next = stageB;
+  let index = 0;
+  let playlist = [];
+  let advanceTimer = null;
+
+  const DEFAULT_IMAGE_DURATION = 8000;
+  const DEFAULT_HTML_DURATION = 10000;
+  const FADE_MS = 800;
+
+  async function loadPlaylist() {
+    try {
+      const res = await fetch('playlist.json?t=' + Date.now());
+      const data = await res.json();
+      if (!Array.isArray(data.slides) || data.slides.length === 0) {
+        throw new Error('empty playlist');
+      }
+      playlist = data.slides;
+    } catch (err) {
+      console.error('Failed to load playlist', err);
+      playlist = [{ type: 'html', src: '_fallback', duration: 5000 }];
+    }
+  }
+
+  function renderSlide(slide, stage) {
+    stage.innerHTML = '';
+    if (slide.type === 'image') {
+      const img = document.createElement('img');
+      img.className = slide.fit === 'contain' ? 'contain' : 'cover';
+      img.src = slide.src;
+      stage.appendChild(img);
+      return new Promise(resolve => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+      });
+    }
+    if (slide.type === 'video') {
+      const v = document.createElement('video');
+      v.className = slide.fit === 'contain' ? 'contain' : 'cover';
+      v.src = slide.src;
+      v.muted = true;
+      v.playsInline = true;
+      v.autoplay = true;
+      stage.appendChild(v);
+      return new Promise(resolve => {
+        v.oncanplay = () => resolve();
+        v.onerror = () => resolve();
+      });
+    }
+    if (slide.type === 'html') {
+      if (slide.src === '_fallback') {
+        stage.innerHTML = '<div style="width:100%;height:100%;background:#000;color:#c49a3c;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:2rem;">Bank St. Grinders</div>';
+        return Promise.resolve();
+      }
+      const iframe = document.createElement('iframe');
+      iframe.src = slide.src;
+      stage.appendChild(iframe);
+      return new Promise(resolve => {
+        iframe.onload = () => resolve();
+        iframe.onerror = () => resolve();
+        setTimeout(resolve, 1500);
+      });
+    }
+    return Promise.resolve();
+  }
+
+  function swap() {
+    current.classList.remove('visible');
+    next.classList.add('visible');
+    [current, next] = [next, current];
+  }
+
+  function durationFor(slide, stage) {
+    if (slide.type === 'video') {
+      return new Promise(resolve => {
+        const v = stage.querySelector('video');
+        if (!v) return resolve(5000);
+        v.onended = () => resolve(0);
+        v.play().catch(() => resolve(5000));
+      });
+    }
+    const ms = slide.duration ?? (slide.type === 'html' ? DEFAULT_HTML_DURATION : DEFAULT_IMAGE_DURATION);
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function advance() {
+    if (playlist.length === 0) return;
+    const slide = playlist[index % playlist.length];
+    await renderSlide(slide, next);
+    swap();
+    await durationFor(slide, current);
+    index++;
+    advance();
+  }
+
+  async function start() {
+    await loadPlaylist();
+    advance();
+  }
+
+  // Reload if playlist changes — useful with deploy script
+  window.addEventListener('keydown', e => {
+    if (e.key === 'r') location.reload();
+  });
+
+  start();
+})();
+</script>
+
+</body>
+</html>

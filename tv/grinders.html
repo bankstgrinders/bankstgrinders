@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bank St. Grinders — Menu</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<div class="tv-menu">
+
+  <header class="tv-header">
+    <picture>
+      <source srcset="../500_white_logo.webp" type="image/webp" />
+      <img src="../500_white_logo.png" alt="Bank St. Grinders" class="tv-logo" />
+    </picture>
+    <div class="tv-brand">
+      <div class="tv-title" id="brandTitle">Bank St. Grinders</div>
+      <div class="tv-slogan" id="brandSlogan">Come experience heaven on a hoagie!</div>
+    </div>
+    <div class="tv-header-right">
+      <div class="line-1" id="headerLine1">Family Owned · Since 2012</div>
+      <div class="line-2" id="headerLine2">Add Double Meat for $5 · Get It Hot N' Toasted!</div>
+    </div>
+  </header>
+
+  <main class="tv-main">
+    <section class="tv-col" id="col1"></section>
+    <section class="tv-col" id="col2"></section>
+    <section class="tv-col" id="col3"></section>
+    <section class="tv-col" id="col4"></section>
+  </main>
+
+  <footer class="tv-footer">
+    <div>
+      <span class="label">Location</span>
+      <span id="footerAddress">4395 N Bank St · Kingman, AZ</span>
+    </div>
+    <div class="tv-footer-center">
+      <span class="label">Call</span>
+      <span id="footerPhone">(928) 692-7667</span>
+    </div>
+    <div class="tv-footer-right">
+      <span class="label">Hours</span>
+      <span id="footerHours">Mon – Fri · 9am – 6pm</span>
+    </div>
+  </footer>
+
+</div>
+
+<script src="menu-renderer.js"></script>
+<script>
+(async () => {
+  const menu = await BSG.getMenu();
+
+  document.getElementById('brandTitle').textContent = menu.info.name;
+  document.getElementById('brandSlogan').textContent = menu.info.slogan;
+  document.getElementById('headerLine1').textContent = menu.headerExtras.line1;
+  document.getElementById('headerLine2').textContent = menu.headerExtras.line2;
+  document.getElementById('footerAddress').textContent = menu.info.addressLine1.replace(' Street', ' St') + ' · ' + menu.info.addressLine2.split(',')[0] + ', AZ';
+  document.getElementById('footerPhone').textContent = menu.info.phone;
+  document.getElementById('footerHours').textContent = menu.info.hoursShort;
+
+  // Column 1: Italian Grinders
+  BSG.renderSandwichSection(menu.sandwiches.italianGrinders, document.getElementById('col1'));
+
+  // Column 2: Hot Grinders
+  BSG.renderSandwichSection(menu.sandwiches.hotGrinders, document.getElementById('col2'));
+
+  // Column 3: Cold Grinders
+  BSG.renderSandwichSection(menu.sandwiches.coldGrinders, document.getElementById('col3'));
+
+  // Column 4: Local Favorites (paninis merged in under the same heading)
+  const col4 = document.getElementById('col4');
+  BSG.renderSandwichSection(menu.sandwiches.localFavorites, col4);
+
+  const paninis = menu.sandwiches.paninis;
+  if (paninis?.items?.length) {
+    if (paninis.note) {
+      const note = document.createElement('div');
+      note.className = 'tv-works-note';
+      note.style.marginTop = '8px';
+      note.textContent = paninis.note;
+      col4.appendChild(note);
+    }
+    paninis.items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'tv-item';
+      row.innerHTML =
+        `<span class="tv-item-name">${BSG.esc(item.name)}</span>` +
+        `<span class="tv-item-price">${BSG.esc(item.price)}</span>` +
+        (item.desc ? `<span class="tv-item-desc">${BSG.esc(item.desc)}</span>` : '');
+      col4.appendChild(row);
+    });
+  }
+
+  BSG.pollForChanges(true);
+})();
+</script>
+
+</body>
+</html>
