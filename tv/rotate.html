@@ -116,12 +116,18 @@
       const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
       const wrap = document.createElement('div');
       wrap.className = 'slide-page';
-      const head = slide.heading ? `<header class="slide-head">${esc(slide.heading)}</header>` : '<header class="slide-head" style="display:none;"></header>';
+      // Collapse header/footer grid rows when those fields aren't set,
+      // so the headline + body get the full 1080px height instead of
+      // dead bands of cream above and below.
+      wrap.style.gridTemplateRows = `${slide.heading ? '110px' : '0'} 1fr ${slide.footer ? '60px' : '0'}`;
+      // Pin every grid item to its explicit row so auto-placement can't
+      // drop a present element into a collapsed (0px) row.
+      const head = slide.heading ? `<header class="slide-head" style="grid-row: 1;">${esc(slide.heading)}</header>` : '';
       const subline = slide.subtitle ? `<div class="slide-big-cta">${esc(slide.subtitle)}</div>` : '';
       const body = slide.body ? `<div class="slide-big-text">${esc(slide.body).replace(/\n/g, '<br>')}</div>` : '';
       const price = slide.price ? `<div class="slide-big-price">${esc(slide.price)}</div>` : '';
-      const foot = slide.footer ? `<footer class="slide-foot">${esc(slide.footer)}</footer>` : '<footer class="slide-foot" style="display:none;"></footer>';
-      wrap.innerHTML = `${head}<div class="slide-body"><div class="slide-big-center"><div class="slide-big-heading">${esc(slide.title)}</div>${body}${price}${subline}</div></div>${foot}`;
+      const foot = slide.footer ? `<footer class="slide-foot" style="grid-row: 3;">${esc(slide.footer)}</footer>` : '';
+      wrap.innerHTML = `${head}<div class="slide-body" style="grid-row: 2;"><div class="slide-big-center"><div class="slide-big-heading">${esc(slide.title)}</div>${body}${price}${subline}</div></div>${foot}`;
       stage.appendChild(wrap);
       return Promise.resolve();
     }
