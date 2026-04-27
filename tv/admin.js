@@ -464,7 +464,15 @@ function refreshSlideList() {
 async function handleUpload(file, type) {
   if (!file) return;
   const progress = document.getElementById('uploadProgress');
-  progress.textContent = `Uploading ${file.name}…`;
+
+  // Videos are re-encoded server-side for smooth Pi playback. Set the right
+  // expectation up front — the request can take a minute or more for a long
+  // iPhone clip — so the user doesn't think it froze.
+  const isVideo = type === 'video';
+  progress.textContent = isVideo
+    ? `Uploading & processing ${file.name} — this can take a minute, please don't close the page…`
+    : `Uploading ${file.name}…`;
+
   const fd = new FormData();
   fd.append('file', file);
   try {
@@ -483,8 +491,10 @@ async function handleUpload(file, type) {
       : { type: 'video', src: out.src, fit: 'cover' };
     playlist.slides.push(slide);
     refreshSlideList();
-    progress.textContent = `✓ Added ${out.name} — don't forget to Save Changes`;
-    setTimeout(() => { progress.textContent = ''; }, 5000);
+    let msg = `✓ Added ${out.name} — don't forget to Save Changes`;
+    if (out.warning) msg += ` (note: ${out.warning})`;
+    progress.textContent = msg;
+    setTimeout(() => { progress.textContent = ''; }, 8000);
   } catch (e) {
     progress.textContent = `✗ Upload failed: ${e.message}`;
   }
