@@ -1354,3 +1354,16 @@ body {
   font-weight: 900;
   color: var(--brown-dark);
 }
+
+.catering-form-intro {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--brown-mid);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.catering-form {
+  max-width: 600px;
+}

@@ -85,9 +85,51 @@
         <p class="catering-platter-text">16 servings, feeds 8–10 people. Choose a variety of our delicious cold grinders — turkey, roast beef, ham, or classic Italian. Customize your platter today!</p>
         <span class="catering-platter-price">$80</span>
       </div>
-      <p class="thankyou-text">Bringing Bank St. Grinders to your next event is easy — just give us a call or shoot us an email and we'll put something together for you!</p>
+      <p class="thankyou-text">Bringing Bank St. Grinders to your next event is easy — give us a call or send us the details below and we'll put something together for you!</p>
       <a href="tel:+19286927667" class="btn btn-primary"><i class="fa-solid fa-phone"></i> (928) 692-7667</a>
-      <a href="mailto:catering@bankstgrinders.com" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> catering@bankstgrinders.com</a>
+    </div>
+
+    <div class="catering-form-intro">
+      <span>— or send us the details —</span>
+    </div>
+
+    <form class="apply-form catering-form" id="cateringForm" action="https://formspree.io/f/meevwknz" method="POST">
+      <input type="hidden" name="_subject" value="New Catering Inquiry" />
+      <input type="hidden" name="_next" value="https://bankstgrinders.com/thankyou-catering.html" />
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
+
+      <div class="form-group">
+        <label for="cname">Your Name</label>
+        <input type="text" id="cname" name="name" placeholder="Jane Smith" autocomplete="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="cphone">Phone</label>
+        <input type="tel" id="cphone" name="phone" placeholder="(928) 555-1234" autocomplete="tel" required />
+      </div>
+
+      <div class="form-group">
+        <label for="cemail">Email <span class="label-optional">(optional)</span></label>
+        <input type="email" id="cemail" name="email" placeholder="jane@email.com" autocomplete="email" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cdate">Event Date</label>
+          <input type="date" id="cdate" name="event_date" required />
+        </div>
+        <div class="form-group">
+          <label for="cguests">Number of People</label>
+          <input type="number" id="cguests" name="guests" min="1" placeholder="e.g. 25" required />
+        </div>
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn btn-primary">Send Catering Request</button>
+      </div>
+    </form>
+
+    <div class="back-link">
       <a href="index.html" class="btn btn-secondary">&larr; Back to Home</a>
     </div>
 
@@ -156,6 +198,31 @@
 
       startAuto();
     })();
+
+    document.getElementById('cateringForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      try {
+        const response = await fetch('https://formspree.io/f/meevwknz', {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          window.location.href = 'thankyou-catering.html';
+        } else {
+          btn.textContent = 'Send Catering Request';
+          btn.disabled = false;
+          alert('Something went wrong. Please try again or call us at (928) 692-7667.');
+        }
+      } catch {
+        btn.textContent = 'Send Catering Request';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again or call us at (928) 692-7667.');
+      }
+    });
   </script>
 
   <!-- DIVIDER -->
