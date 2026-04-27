@@ -1,5 +1,6 @@
-# WSL Zone.Identifier metadata files
+# WSL Zone.Identifier metadata files (both naming conventions seen in this repo)
 *:Zone.Identifier
+*.Zone.Identifier
 
 # OS files
 .DS_Store
@@ -7,4 +8,29 @@ Thumbs.db
 
 # Reference screenshots (local only)
 ReferenceSC/
+
+# Customer reviews (populated locally, not part of the public deploy)
 reviews/
+
+# Claude Code / Codex local state
+.claude/
+.codex
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Local-only backup snapshots created by the menu admin
+tv/data/backups/
+
+# Uploaded media — videos and images live on the Pi, not in git.
+# (Re-upload via the admin UI if you wipe the SD card.)
+tv/slides/*.mp4
+tv/slides/*.webm
+tv/slides/*.mov
+tv/slides/*.m4v
+tv/slides/*.jpg
+tv/slides/*.jpeg
+tv/slides/*.png
+tv/slides/*.gif
+tv/slides/*.webp

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>Menu Admin — Bank St. Grinders</title>
+
+  <!-- PWA / Add to Home Screen -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8b1a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Menu Admin" />
+  <link rel="apple-touch-icon" href="../500_white_logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../500_white_logo.png" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:     #f5f0e8;
+      --parchment: #e8dfc8;
+      --brown-dark:#3b2314;
+      --brown-mid: #6b3f23;
+      --red-deli:  #8b1a1a;
+      --gold:      #c49a3c;
+      --text-dark: #2a1a0e;
+      --text-muted:#6b5040;
+      --ok-green:  #2e7d32;
+    }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      padding: 0;
+      padding-bottom: 120px;
+      /* Honor iPad/iPhone safe areas (notch/home indicator) */
+      padding-top: env(safe-area-inset-top, 0);
+      padding-left: env(safe-area-inset-left, 0);
+      padding-right: env(safe-area-inset-right, 0);
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* --- STICKY HEADER --- */
+    .admin-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #000;
+      border-bottom: 4px solid var(--red-deli);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cream);
+    }
+
+    .admin-title small {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.05em;
+    }
+
+    .save-btn {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      background: var(--red-deli);
+      color: #fff;
+      border: 3px solid var(--red-deli);
+      border-radius: 8px;
+      cursor: pointer;
+      min-height: 56px;
+      min-width: 160px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .save-btn:hover { background: var(--brown-dark); border-color: var(--brown-dark); }
+    .save-btn:active { transform: scale(0.97); }
+    .save-btn:disabled { background: #888; border-color: #888; cursor: wait; }
+
+    .logout-btn {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--parchment);
+      border: 2px solid var(--parchment);
+      border-radius: 6px;
+      cursor: pointer;
+      min-height: 44px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .logout-btn:hover { background: var(--parchment); color: #000; }
+
+    .install-hint {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+      background: #000;
+      color: var(--cream);
+      padding: 14px 50px 14px 18px;
+      border-radius: 10px;
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border: 2px solid var(--gold);
+      z-index: 200;
+    }
+    .install-hint b { color: var(--gold); }
+    .install-hint-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: transparent;
+      border: 0;
+      color: var(--cream);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 4px 10px;
+      min-height: 40px;
+      min-width: 40px;
+    }
+
+    .save-status {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      display: none;
+    }
+    .save-status.success { display: inline-block; background: var(--ok-green); color: #fff; }
+    .save-status.error   { display: inline-block; background: var(--red-deli); color: #fff; }
+
+    /* --- SECTIONS --- */
+    .admin-body { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+
+    .section {
+      background: #fff;
+      border: 2px solid var(--parchment);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      background: var(--red-deli);
+      color: #fff;
+      padding: 14px 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-body { padding: 16px 20px; }
+
+    .section-note {
+      background: var(--parchment);
+      font-style: italic;
+      color: var(--text-muted);
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--parchment);
+    }
+
+    .item-row {
+      display: grid;
+      grid-template-columns: 1.3fr 2fr 100px;
+      gap: 12px;
+      padding: 10px 0;
+      align-items: center;
+      border-bottom: 1px solid var(--parchment);
+    }
+
+    .item-row:last-child { border-bottom: none; }
+
+    .item-row.compact {
+      grid-template-columns: 1fr 100px;
+    }
+
+    .field-label {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--brown-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type=text], input[type=password], textarea {
+      font-family: 'Lora', Georgia, serif;
+      /* 16px prevents iOS Safari auto-zoom when focusing inputs */
+      font-size: 16px;
+      padding: 12px 14px;
+      border: 2px solid var(--parchment);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text-dark);
+      min-height: 48px;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type=text]:focus, input[type=password]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--red-deli);
+      background: #fffef8;
+    }
+
+    .price-input {
+      text-align: right;
+      font-weight: 700;
+      color: var(--red-deli);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .info-grid .field.full { grid-column: 1 / -1; }
+
+    .day-row {
+      display: grid;
+      grid-template-columns: 160px 1.2fr 1.5fr;
+      gap: 12px;
+      padding: 10px 0;
+      align-items: center;
+      border-bottom: 1px solid var(--parchment);
+    }
+
+    .day-row .day-label {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--brown-mid);
+      font-size: 1rem;
+    }
+
+    /* Mobile-friendly */
+    @media (max-width: 640px) {
+      .item-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .day-row {
+        grid-template-columns: 1fr;
+      }
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      .admin-bar { flex-direction: column; align-items: stretch; }
+      .save-btn { width: 100%; }
+    }
+
+    .login-page {
+      max-width: 420px;
+      margin: 80px auto;
+      padding: 40px 30px;
+      background: #fff;
+      border: 2px solid var(--parchment);
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .login-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--red-deli);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .login-field { margin-bottom: 16px; }
+
+    .login-btn {
+      width: 100%;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 14px;
+      background: var(--red-deli);
+      color: #fff;
+      border: 3px solid var(--red-deli);
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .login-error {
+      color: var(--red-deli);
+      font-weight: 700;
+      text-align: center;
+      padding: 10px 0;
+      display: none;
+    }
+
+    .helper {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* --- ROTATION SECTION --- */
+    .slide-card {
+      border: 2px solid var(--parchment);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .slide-thumb {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .slide-thumb img, .slide-thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .slide-meta-line1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--brown-dark);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .slide-meta-line2 {
+      font-family: 'Lora', serif;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .slide-meta-line2 input,
+    .slide-meta-line2 select {
+      font-size: 14px;
+      padding: 6px 8px;
+      border: 1px solid var(--parchment);
+      border-radius: 4px;
+      min-height: 36px;
+      background: #fff;
+    }
+
+    .slide-meta-line2 input { width: 90px; }
+
+    .slide-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slide-btn {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      min-height: 40px;
+      min-width: 60px;
+      background: #fff;
+      color: var(--brown-dark);
+      border: 2px solid var(--parchment);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .slide-btn:active { transform: scale(0.97); }
+    .slide-btn.danger { color: var(--red-deli); border-color: var(--red-deli); }
+
+    .slide-add-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px dashed var(--parchment);
+    }
+
+    .add-btn {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 12px 18px;
+      min-height: 48px;
+      background: var(--brown-dark);
+      color: var(--cream);
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .add-btn:active { transform: scale(0.98); }
+    .add-btn.gold { background: var(--gold); color: var(--brown-dark); }
+
+    .text-form {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      background: var(--cream);
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+
+    .upload-progress {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      color: var(--brown-mid);
+      margin-top: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .slide-card { grid-template-columns: 64px 1fr; }
+      .slide-card .slide-actions { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
+    }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN (shown first until auth OK) -->
+<div id="login" class="login-page" style="display:none;">
+  <h1 class="login-heading">Menu Admin</h1>
+  <div class="login-field">
+    <label class="field-label">Username</label>
+    <input type="text" id="loginUser" autocomplete="username" />
+  </div>
+  <div class="login-field">
+    <label class="field-label">Password</label>
+    <input type="password" id="loginPass" autocomplete="current-password" />
+  </div>
+  <div class="login-error" id="loginError"></div>
+  <button class="login-btn" id="loginBtn">Sign In</button>
+  <div class="helper">If you don't know the password, ask whoever set up the TVs.</div>
+</div>
+
+<!-- ADMIN UI (shown after auth) -->
+<div id="admin" style="display:none;">
+
+  <div class="admin-bar">
+    <div class="admin-title">
+      Menu Admin
+      <small>Bank St. Grinders — TV #1 in ~30 sec · TV #2 in ~90 sec</small>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <span class="save-status" id="saveStatus"></span>
+      <button class="save-btn" id="saveBtn">Save Changes</button>
+      <button class="logout-btn" id="logoutBtn" title="Sign out">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-body" id="adminBody"></div>
+
+  <!-- Shown on iOS Safari only, when not yet installed to home screen -->
+  <div class="install-hint" id="installHint" style="display:none;">
+    <button class="install-hint-close" id="installHintClose" aria-label="Dismiss">×</button>
+    <b>Tip:</b> Add this to your home screen — tap the <b>Share</b> icon <span style="font-size:1.1em;">⬆︎</span> in Safari, then <b>Add to Home Screen</b>. Opens like an app.
+  </div>
+
+</div>
+
+<script src="admin.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page" style="grid-template-rows: 110px 1fr 60px;">
+
+  <header class="slide-head">Visit &middot; Follow &middot; Review</header>
+
+  <div class="slide-body" style="padding: 40px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+
+    <div style="text-align: center;">
+      <picture>
+        <source srcset="../../500_white_logo.webp" type="image/webp" />
+        <img src="../../500_white_logo.png" alt="Bank St. Grinders" style="width: 340px; height: 340px; border-radius: 50%; object-fit: cover; background: #000; padding: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.25);" />
+      </picture>
+      <div id="brandTitle" style="font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; color: var(--red-deli); margin-top: 30px; letter-spacing: 0.02em;"></div>
+      <div id="brandSlogan" style="font-family: 'Lora', serif; font-style: italic; font-size: 1.4rem; color: var(--brown-dark); margin-top: 8px;"></div>
+      <div id="brandEstablished" style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--brown-mid); margin-top: 14px; letter-spacing: 0.1em; text-transform: uppercase;"></div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 30px;">
+
+      <div style="padding: 24px 30px; background: var(--parchment); border-left: 8px solid var(--red-deli); border-radius: 4px;">
+        <div style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--red-deli); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;">Hours</div>
+        <div id="hoursDays" style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--brown-dark);"></div>
+        <div id="hoursTime" style="font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: var(--brown-dark);"></div>
+        <div id="hoursClosed" style="font-family: 'Lora', serif; font-style: italic; font-size: 1.15rem; color: var(--text-muted); margin-top: 8px;"></div>
+      </div>
+
+      <div style="padding: 24px 30px; background: var(--parchment); border-left: 8px solid var(--red-deli); border-radius: 4px;">
+        <div style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--red-deli); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;">Visit &amp; Call</div>
+        <div id="addressLine1" style="font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--brown-dark);"></div>
+        <div id="addressLine2" style="font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--brown-dark);"></div>
+        <div id="phone" style="font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; color: var(--red-deli); margin-top: 12px;"></div>
+      </div>
+
+      <div style="text-align: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown-mid); letter-spacing: 0.05em;">
+        Follow the grind &nbsp;·&nbsp; <b>@BankStGrinders</b>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="slide-foot">BankStGrinders.com</footer>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+
+  document.getElementById('brandTitle').textContent = m.info.name;
+  document.getElementById('brandSlogan').textContent = m.info.slogan;
+  document.getElementById('brandEstablished').textContent = `Family Owned · Since ${m.info.established}`;
+  document.getElementById('hoursDays').textContent = m.info.hoursDays;
+  document.getElementById('hoursTime').textContent = m.info.hoursTime;
+  document.getElementById('hoursClosed').textContent = m.info.hoursClosed;
+  document.getElementById('addressLine1').textContent = m.info.addressLine1;
+  document.getElementById('addressLine2').textContent = m.info.addressLine2;
+  document.getElementById('phone').textContent = m.info.phone;
+})();
+</script>
+
+</body>
+</html>

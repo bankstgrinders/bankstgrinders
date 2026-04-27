@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page">
+
+  <header class="slide-head" id="head"></header>
+
+  <div class="slide-body slide-big-center" style="padding: 30px 80px;">
+    <div class="slide-big-heading" id="headline"></div>
+    <div class="slide-big-text" id="description"></div>
+    <div class="slide-big-price" id="price"></div>
+    <div class="slide-big-cta" id="cta"></div>
+  </div>
+
+  <footer class="slide-foot" id="foot"></footer>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+
+  document.getElementById('head').textContent = m.catering.title;
+  document.getElementById('headline').textContent = m.catering.headline;
+  document.getElementById('description').textContent = m.catering.description;
+  document.getElementById('price').textContent = '$' + m.catering.price;
+  document.getElementById('cta').textContent = `Call Ahead · ${m.info.phone}`;
+  document.getElementById('foot').innerHTML = 'Orders Welcome &middot; BankStGrinders.com';
+})();
+</script>
+
+</body>
+</html>

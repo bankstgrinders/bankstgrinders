@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page">
+
+  <header class="slide-head">Today's Specials &amp; Sides</header>
+
+  <div class="slide-body" style="padding: 30px 80px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px;">
+
+    <!-- SOUP SPECIAL -->
+    <div>
+      <h3 id="soupHeading" style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--red-deli); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px; text-align: center;"></h3>
+
+      <div style="padding: 30px; background: var(--parchment); border: 4px solid var(--gold); border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(139, 26, 26, 0.2);">
+        <div id="today-label" style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown-mid); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;"></div>
+        <div id="today-name" style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--brown-dark); margin-bottom: 10px;"></div>
+        <div id="today-desc" style="font-family: 'Lora', serif; font-style: italic; font-size: 1.4rem; color: var(--brown-dark);"></div>
+      </div>
+
+      <div id="soup-week" style="font-family: 'Lora', serif; font-size: 1.15rem; color: var(--text-muted); text-align: center;"></div>
+    </div>
+
+    <!-- SIDES -->
+    <div>
+      <h3 id="sidesHeading" style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--red-deli); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px; text-align: center;"></h3>
+
+      <div id="sides-list" style="font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--brown-dark); line-height: 2; text-align: center; padding: 20px 0;"></div>
+
+      <div style="margin-top: 30px; padding: 24px 30px; background: #000; color: var(--cream); border-radius: 8px; text-align: center;">
+        <div id="extrasHeading" style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;"></div>
+        <div id="extras-list" style="font-family: 'Lora', serif; font-size: 1.05rem; line-height: 1.7;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="slide-foot" id="foot"></footer>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  document.getElementById('foot').textContent = `Call ahead · ${m.info.phone}`;
+  document.getElementById('soupHeading').innerHTML = `${esc(m.soupSpecials.title)} &middot; $${esc(m.soupSpecials.basePrice)}`;
+  document.getElementById('sidesHeading').innerHTML = `${esc(m.sides.title)} &middot; $${esc(m.sides.basePrice)}`;
+  document.getElementById('extrasHeading').textContent = m.extras.title;
+
+  // Today's soup special (auto by day of week)
+  const day = new Date().getDay().toString();
+  const special = m.soupSpecials.byDay[day];
+  if (special) {
+    document.getElementById('today-label').textContent = special.dayLabel;
+    document.getElementById('today-name').innerHTML = esc(special.name);
+    document.getElementById('today-desc').innerHTML = esc(special.desc);
+  } else {
+    document.getElementById('today-label').textContent = 'Weekday Specials';
+    document.getElementById('today-name').textContent = 'Monday – Friday';
+    document.getElementById('today-desc').textContent = 'A different ciabatta + soup combo every weekday!';
+  }
+
+  // Weekly schedule list
+  const weekHtml = Object.values(m.soupSpecials.byDay).map(d =>
+    `<div><b>${esc(d.dayLabel)}</b> · ${esc(d.name)} ${esc(d.desc).replace(/^w\//, '+')}</div>`
+  ).join('');
+  document.getElementById('soup-week').innerHTML = weekHtml;
+
+  // Sides list
+  document.getElementById('sides-list').innerHTML = m.sides.items.map(s => `<div>${esc(s.name)}</div>`).join('');
+
+  // Extras (with prices, comma-separated, wrapped)
+  document.getElementById('extras-list').innerHTML = m.extras.items.map(e =>
+    `${esc(e.name)} ${esc(e.price)}`
+  ).join(' &middot; ');
+})();
+</script>
+
+</body>
+</html>

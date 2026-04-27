@@ -1,0 +1,331 @@
+{
+  "info": {
+    "name": "Bank St. Grinders",
+    "slogan": "Come experience heaven on a hoagie!",
+    "established": "2012",
+    "phone": "(928) 692-7667",
+    "addressLine1": "4395 N Bank Street",
+    "addressLine2": "Kingman, AZ 86409",
+    "hoursShort": "Mon – Fri · 9am – 6pm",
+    "hoursDays": "Monday – Friday",
+    "hoursTime": "9:00 AM – 6:00 PM",
+    "hoursClosed": "Closed Saturday & Sunday"
+  },
+  "works": "The Works: lettuce, tomato, onion, mayo, mustard, house Italian dressing & choice of cheese",
+  "sandwiches": {
+    "italianGrinders": {
+      "title": "Italian Grinders",
+      "note": "The Works: lettuce, tomato, onion, mayo, mustard, house Italian dressing & choice of cheese",
+      "items": [
+        {
+          "name": "Classic Italian",
+          "desc": "salami & capicola w/ the works",
+          "price": "9.99"
+        },
+        {
+          "name": "Italian Slam",
+          "desc": "pepperoni, capicola & roast beef w/ the works",
+          "price": "10.99"
+        },
+        {
+          "name": "Italian Trio",
+          "desc": "salami, capicola & prosciutto w/ the works",
+          "price": "10.09"
+        },
+        {
+          "name": "Cold Cut Italian",
+          "desc": "pepperoni, salami & ham w/ the works",
+          "price": "10.09"
+        },
+        {
+          "name": "Sheila's Italian Club",
+          "desc": "salami, prosciutto, ham, avocado, bacon & oregano w/ the works",
+          "price": "11.99"
+        }
+      ]
+    },
+    "hotGrinders": {
+      "title": "Hot Grinders",
+      "note": "",
+      "items": [
+        {
+          "name": "Standard Pastrami",
+          "desc": "mustard, pickles & provolone",
+          "price": "11.99"
+        },
+        {
+          "name": "Meatball Hero",
+          "desc": "provolone & Parmesan",
+          "price": "11.99"
+        },
+        {
+          "name": "Meatball Pepperoni",
+          "desc": "provolone & Parmesan",
+          "price": "11.99"
+        },
+        {
+          "name": "Chicken Cordon Bleu",
+          "desc": "fajita chicken, ham, bacon, lettuce, tomato, mayo & Swiss",
+          "price": "12.99"
+        },
+        {
+          "name": "BBQ Beef & Cheese",
+          "desc": "lettuce, tomato, onion & mayo",
+          "price": "11.99"
+        },
+        {
+          "name": "French Dip",
+          "desc": "roast beef & provolone served with Au Jus",
+          "price": "11.99"
+        },
+        {
+          "name": "Grinders Cheese Steak",
+          "desc": "pepper jack, peppers, onions & chipotle sauce",
+          "price": "12.99"
+        }
+      ]
+    },
+    "coldGrinders": {
+      "title": "Cold Grinders",
+      "note": "",
+      "items": [
+        {
+          "name": "Turkey Grinder",
+          "desc": "w/ the works",
+          "price": "10.99"
+        },
+        {
+          "name": "Ham Grinder",
+          "desc": "w/ the works",
+          "price": "10.99"
+        },
+        {
+          "name": "Roast Beef Grinder",
+          "desc": "w/ the works",
+          "price": "11.99"
+        },
+        {
+          "name": "BLT Grinder",
+          "desc": "bacon, lettuce, tomato & mayo",
+          "price": "11.99"
+        },
+        {
+          "name": "Albacore Tuna Grinder",
+          "desc": "lettuce, tomato & cheese",
+          "price": "10.99"
+        },
+        {
+          "name": "Deli Club Grinder",
+          "desc": "turkey, bacon, avocado, cheese, lettuce, tomato & mayo",
+          "price": "11.99"
+        },
+        {
+          "name": "Chicken Salad Ciabatta",
+          "desc": "lettuce, tomato, onion & cheese",
+          "price": "11.99"
+        },
+        {
+          "name": "Veggie Grinder",
+          "desc": "lettuce, tomato, onion, bell pepper, cucumber, spinach & 2 cheeses",
+          "price": "10.99"
+        }
+      ]
+    },
+    "localFavorites": {
+      "title": "Local Favorites",
+      "note": "",
+      "items": [
+        {
+          "name": "Italian Kicker",
+          "desc": "salami, capicola & calabrese salami w/ the works",
+          "price": "10.99"
+        },
+        {
+          "name": "Half Pound Pastrami",
+          "desc": "toasted with mustard, pickle & provolone",
+          "price": "16.99"
+        },
+        {
+          "name": "BBQ Beef Brisket",
+          "desc": "toasted with lettuce, tomato & onion",
+          "price": "11.99"
+        },
+        {
+          "name": "Roast Beef & Cheddar Bacon Popper Ciabatta",
+          "desc": "toasted w/ roast beef, bacon & cheddar with jalapeño popper spread",
+          "price": "12.99"
+        },
+        {
+          "name": "Buffalo Chicken",
+          "desc": "toasted with pepperoni, bacon, lettuce, tomato & ranch",
+          "price": "10.99"
+        },
+        {
+          "name": "Turkey Pastrami",
+          "desc": "toasted with mustard, pickle & provolone",
+          "price": "11.99"
+        },
+        {
+          "name": "Pastrami Club",
+          "desc": "toasted with bacon, Swiss, thousand island & coleslaw",
+          "price": "12.99"
+        }
+      ]
+    },
+    "paninis": {
+      "title": "Paninis",
+      "note": "",
+      "items": [
+        {
+          "name": "The Billy-O PANINI",
+          "desc": "pepperoni, salami & ham w/ the works on sourdough",
+          "price": "10.99"
+        },
+        {
+          "name": "Reuben",
+          "desc": "corned beef, sauerkraut & thousand island on rye",
+          "price": "11.99"
+        },
+        {
+          "name": "Spicy Roast Beef & Green Chili Popper",
+          "desc": "roast beef, green chilies & jalapeño popper spread on sourdough",
+          "price": "11.99"
+        }
+      ]
+    }
+  },
+  "breakfast": {
+    "title": "Breakfast · Served All Day",
+    "items": [
+      {
+        "name": "Supreme Breakfast Ciabatta",
+        "desc": "fried egg, ham, bacon & American cheese",
+        "price": "8.95"
+      },
+      {
+        "name": "Italian Breakfast Ciabatta",
+        "desc": "egg, capicola, salami, pepperjack & chipotle sauce",
+        "price": "8.95"
+      }
+    ]
+  },
+  "makeItAMeal": {
+    "title": "Make It a Meal",
+    "basePrice": "3.99",
+    "note": "w/ any grinder or panini",
+    "items": [
+      {
+        "name": "16oz Fountain",
+        "price": "2.99"
+      },
+      {
+        "name": "32oz Fountain",
+        "price": "3.49"
+      },
+      {
+        "name": "Bottle Drink",
+        "price": "2.99"
+      },
+      {
+        "name": "Chips",
+        "price": "1.50"
+      },
+      {
+        "name": "2 Cookies",
+        "price": "1.99"
+      }
+    ]
+  },
+  "sides": {
+    "title": "Homemade Sides",
+    "basePrice": "3.49",
+    "items": [
+      {
+        "name": "Italian Pasta"
+      },
+      {
+        "name": "Macaroni Salad"
+      },
+      {
+        "name": "Potato Salad"
+      },
+      {
+        "name": "Seafood Salad"
+      }
+    ]
+  },
+  "soupSpecials": {
+    "title": "Daily Soup Special",
+    "basePrice": "12.95",
+    "byDay": {
+      "1": {
+        "dayLabel": "Monday",
+        "name": "Turkey Pepper Ciabatta",
+        "desc": "w/ chicken poblano soup"
+      },
+      "2": {
+        "dayLabel": "Tuesday",
+        "name": "Pastrami Ciabatta",
+        "desc": "w/ cream of potato soup"
+      },
+      "3": {
+        "dayLabel": "Wonder Wednesday",
+        "name": "Ham & Cheese Ciabatta",
+        "desc": "w/ a different soup each Wednesday!"
+      },
+      "4": {
+        "dayLabel": "Thursday",
+        "name": "BBQ Beef Ciabatta",
+        "desc": "w/ cowboy bean chili"
+      },
+      "5": {
+        "dayLabel": "Friday",
+        "name": "Tuna Ciabatta",
+        "desc": "w/ clam chowder"
+      }
+    }
+  },
+  "extras": {
+    "title": "Extras",
+    "items": [
+      {
+        "name": "Avocado",
+        "price": "1.50"
+      },
+      {
+        "name": "Bacon",
+        "price": "2.50"
+      },
+      {
+        "name": "Green Chili",
+        "price": "1.00"
+      },
+      {
+        "name": "Extra Cheese",
+        "price": "2.25"
+      },
+      {
+        "name": "Hot Spread",
+        "price": "0.75"
+      },
+      {
+        "name": "Popper Spread",
+        "price": "1.00"
+      },
+      {
+        "name": "Extra Toppings",
+        "price": "1.00"
+      }
+    ]
+  },
+  "catering": {
+    "title": "Catering · The Grinders Sub Platter",
+    "headline": "Feeds 8–10 People",
+    "description": "16 generous servings. Pick a variety of our delicious cold grinders — turkey, roast beef, ham, tuna, BLT, or classic Italian. Customize your platter today!",
+    "price": "80"
+  },
+  "headerExtras": {
+    "line1": "Family Owned · Since 2012",
+    "line2": "Add Double Meat for $5 · Get It Hot N' Toasted!"
+  }
+}
