@@ -1,5 +1,4 @@
 {
-  "_comment": "Edit this file to change what plays on the rotating TV. After editing, push to GitHub and run tv-update on the Pi. type: image | video | html | text. duration: milliseconds (videos auto-advance when done). fit: cover (default, may crop) | contain (may letterbox).",
   "slides": [
     {
       "type": "html",
