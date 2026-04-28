@@ -273,6 +273,23 @@ function renderSandwichCategory(key, data, parent) {
 function renderForm(m) {
   bodyEl.innerHTML = '';
 
+  // Two panes — TV #1 (the static menu) and TV #2 (the rotation). Both
+  // are rendered into the DOM together so collectForm() can read every
+  // input even when its tab isn't active. CSS shows only the active one.
+  const tv1Pane = el('div', { class: 'tab-pane', attrs: { 'data-pane': 'tv1' } });
+  const tv2Pane = el('div', { class: 'tab-pane', attrs: { 'data-pane': 'tv2' } });
+
+  renderTv1Sections(m, tv1Pane);
+  renderRotationSection(tv2Pane);
+
+  bodyEl.appendChild(tv1Pane);
+  bodyEl.appendChild(tv2Pane);
+
+  // Apply current tab from localStorage (default tv1)
+  applyActiveTab(localStorage.getItem('bsg_active_tab') || 'tv1');
+}
+
+function renderTv1Sections(m, parent) {
   // ----- INFO -----
   {
     const { sec, body } = section('Restaurant Info');
@@ -288,7 +305,7 @@ function renderForm(m) {
     grid.appendChild(labeledInput('Hours — Time', m.info.hoursTime, 'info.hoursTime'));
     grid.appendChild(labeledInput('Hours — Closed Note', m.info.hoursClosed, 'info.hoursClosed'));
     body.appendChild(grid);
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- HEADER EXTRAS -----
@@ -298,12 +315,12 @@ function renderForm(m) {
     grid.appendChild(labeledInput('Top Line', m.headerExtras.line1, 'headerExtras.line1'));
     grid.appendChild(labeledInput('Bottom Line', m.headerExtras.line2, 'headerExtras.line2'));
     body.appendChild(grid);
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- SANDWICH CATEGORIES -----
   for (const key of ['italianGrinders', 'hotGrinders', 'coldGrinders', 'localFavorites', 'paninis']) {
-    renderSandwichCategory(key, m.sandwiches[key], bodyEl);
+    renderSandwichCategory(key, m.sandwiches[key], parent);
   }
 
   // ----- BREAKFAST -----
@@ -312,7 +329,7 @@ function renderForm(m) {
     m.breakfast.items.forEach((item, i) => {
       body.appendChild(renderItemRow(item, `breakfast.items.${i}`));
     });
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- MAKE IT A MEAL -----
@@ -322,7 +339,7 @@ function renderForm(m) {
     m.makeItAMeal.items.forEach((item, i) => {
       body.appendChild(renderItemRow(item, `makeItAMeal.items.${i}`, ['name', 'price']));
     });
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- SIDES -----
@@ -332,7 +349,7 @@ function renderForm(m) {
     m.sides.items.forEach((item, i) => {
       body.appendChild(renderItemRow(item, `sides.items.${i}`, ['name']));
     });
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- SOUP SPECIALS -----
@@ -349,7 +366,7 @@ function renderForm(m) {
       row.appendChild(labeledInput('Soup / note', d.desc, `soupSpecials.byDay.${key}.desc`));
       body.appendChild(row);
     }
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- EXTRAS -----
@@ -358,7 +375,7 @@ function renderForm(m) {
     m.extras.items.forEach((item, i) => {
       body.appendChild(renderItemRow(item, `extras.items.${i}`, ['name', 'price']));
     });
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
 
   // ----- CATERING -----
@@ -368,16 +385,33 @@ function renderForm(m) {
     body.appendChild(labeledInput('Headline', m.catering.headline, 'catering.headline'));
     body.appendChild(labeledInput('Description', m.catering.description, 'catering.description', { textarea: true }));
     body.appendChild(labeledInput('Price', m.catering.price, 'catering.price', { price: true }));
-    bodyEl.appendChild(sec);
+    parent.appendChild(sec);
   }
-
-  // ----- ROTATING TV (TV #2) -----
-  renderRotationSection();
 }
+
+// Switch the active tab pane. Uses display:none on inactive panes so
+// inputs in the other tab still exist in the DOM and are picked up by
+// collectForm() when the user clicks Save Changes.
+function applyActiveTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabId);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.classList.toggle('active', p.dataset.pane === tabId);
+  });
+  localStorage.setItem('bsg_active_tab', tabId);
+  // Scroll to top so user lands at the start of the newly-shown pane
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+document.getElementById('adminTabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (btn && btn.dataset.tab) applyActiveTab(btn.dataset.tab);
+});
 
 // ---------- ROTATION ----------
 
-function renderRotationSection() {
+function renderRotationSection(parent) {
   const { sec, body } = section(
     'Rotating TV (TV #2)',
     'Slides loop in order. Use ↑ / ↓ to reorder. Tap Save Changes to push edits — TV #2 updates within ~90 seconds.'
@@ -419,7 +453,7 @@ function renderRotationSection() {
   body.appendChild(addRow);
   body.appendChild(progress);
 
-  bodyEl.appendChild(sec);
+  parent.appendChild(sec);
 }
 
 function renderSlideList(container) {
