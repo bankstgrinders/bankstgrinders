@@ -233,6 +233,29 @@
     .item-btn:disabled { opacity: 0.35; cursor: default; }
     .item-btn:active:not(:disabled) { transform: scale(0.97); }
 
+    .item-btn.danger {
+      color: var(--red-deli);
+      border-color: var(--red-deli);
+    }
+
+    .add-item-btn {
+      display: block;
+      margin: 14px auto 4px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 12px 24px;
+      min-height: 48px;
+      background: var(--brown-dark);
+      color: var(--cream);
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .add-item-btn:active { transform: scale(0.98); }
+
     .item-move-select {
       flex: 1;
       min-width: 180px;

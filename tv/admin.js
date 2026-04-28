@@ -169,6 +169,31 @@ function moveSandwichItemToCategory(srcKey, index, destKey) {
   });
 }
 
+function addSandwichItem(categoryKey) {
+  mutateMenuAndReRender(m => {
+    m.sandwiches[categoryKey].items.push({ name: '', desc: '', price: '' });
+  });
+  // Scroll the new (empty) row into view and focus its name field
+  setTimeout(() => {
+    const newName = bodyEl.querySelector(
+      `input[data-path="sandwiches.${categoryKey}.items.${menu.sandwiches[categoryKey].items.length - 1}.name"]`
+    );
+    if (newName) {
+      newName.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      newName.focus();
+    }
+  }, 50);
+}
+
+function deleteSandwichItem(categoryKey, index) {
+  const item = menu.sandwiches[categoryKey].items[index];
+  const label = (item && item.name) ? item.name : 'this item';
+  if (!confirm(`Remove "${label}" from the menu?\n\n(Takes effect when you tap Save Changes. Saved menus are backed up automatically — recoverable from data/backups/.)`)) return;
+  mutateMenuAndReRender(m => {
+    m.sandwiches[categoryKey].items.splice(index, 1);
+  });
+}
+
 function renderItemActions(reorderInfo) {
   const bar = el('div', { class: 'item-actions' });
 
@@ -206,6 +231,11 @@ function renderItemActions(reorderInfo) {
       }
     };
     bar.appendChild(select);
+
+    const delBtn = el('button', { class: 'item-btn danger', text: 'Delete' });
+    delBtn.title = 'Remove this sandwich from the menu';
+    delBtn.onclick = () => deleteSandwichItem(reorderInfo.categoryKey, reorderInfo.index);
+    bar.appendChild(delBtn);
   }
 
   return bar;
@@ -232,6 +262,11 @@ function renderSandwichCategory(key, data, parent) {
       reorder: { kind: 'sandwiches', categoryKey: key, index: i, total }
     }));
   });
+
+  const addBtn = el('button', { class: 'add-item-btn', text: `+ Add to ${data.title}` });
+  addBtn.onclick = () => addSandwichItem(key);
+  body.appendChild(addBtn);
+
   parent.appendChild(sec);
 }
 
