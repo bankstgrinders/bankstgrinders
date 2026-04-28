@@ -12,10 +12,10 @@
 
   <header class="slide-head" id="head"></header>
 
-  <div class="slide-body" style="padding: 40px 100px; justify-content: space-around;">
+  <div class="slide-body" style="padding: 40px 100px; display: grid; grid-template-rows: 1fr auto; gap: 30px;">
 
-    <!-- Today's special — hero -->
-    <div style="padding: 60px 80px; background: var(--parchment); border: 6px solid var(--gold); border-radius: 16px; text-align: center; box-shadow: 0 6px 24px rgba(139, 26, 26, 0.18);">
+    <!-- Today's special — hero (stretches to fill 1fr row, content centered) -->
+    <div style="padding: 60px 80px; background: var(--parchment); border: 6px solid var(--gold); border-radius: 16px; text-align: center; box-shadow: 0 6px 24px rgba(139, 26, 26, 0.18); display: flex; flex-direction: column; justify-content: center;">
       <div id="today-label" style="font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--brown-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px;"></div>
       <div id="today-name" style="font-family: 'Playfair Display', serif; font-size: 4.5rem; font-weight: 900; color: var(--brown-dark); margin-bottom: 18px; line-height: 1.05;"></div>
       <div id="today-desc" style="font-family: 'Lora', serif; font-style: italic; font-size: 2.2rem; color: var(--brown-dark);"></div>
