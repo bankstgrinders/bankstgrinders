@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page">
+
+  <header class="slide-head" id="head"></header>
+
+  <div class="slide-body" style="padding: 40px 100px; justify-content: flex-start; gap: 30px;">
+
+    <!-- Today's special — hero -->
+    <div style="padding: 40px 60px; background: var(--parchment); border: 5px solid var(--gold); border-radius: 14px; text-align: center; box-shadow: 0 6px 24px rgba(139, 26, 26, 0.18);">
+      <div id="today-label" style="font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--brown-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;"></div>
+      <div id="today-name" style="font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 900; color: var(--brown-dark); margin-bottom: 14px; line-height: 1.1;"></div>
+      <div id="today-desc" style="font-family: 'Lora', serif; font-style: italic; font-size: 1.7rem; color: var(--brown-dark);"></div>
+      <div id="today-price" style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--red-deli); margin-top: 16px;"></div>
+    </div>
+
+    <!-- Weekly schedule -->
+    <div style="padding: 26px 40px; border: 2px solid var(--parchment); border-radius: 10px;">
+      <div style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown-mid); letter-spacing: 0.1em; text-transform: uppercase; text-align: center; margin-bottom: 14px;">This Week</div>
+      <div id="soup-week" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; font-family: 'Lora', serif; font-size: 1.1rem; color: var(--text-muted); text-align: center;"></div>
+    </div>
+
+  </div>
+
+  <footer class="slide-foot" id="foot"></footer>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  document.getElementById('head').textContent = m.soupSpecials.title;
+  document.getElementById('foot').textContent = `Call ahead · ${m.info.phone}`;
+
+  // Today's special — keyed by JS day-of-week (1=Mon..5=Fri)
+  const day = new Date().getDay().toString();
+  const special = m.soupSpecials.byDay[day];
+  if (special) {
+    document.getElementById('today-label').textContent = special.dayLabel;
+    document.getElementById('today-name').textContent = special.name;
+    document.getElementById('today-desc').textContent = special.desc;
+  } else {
+    document.getElementById('today-label').textContent = 'Weekday Specials';
+    document.getElementById('today-name').textContent = 'Monday – Friday';
+    document.getElementById('today-desc').textContent = 'A different ciabatta + soup combo every weekday!';
+  }
+  document.getElementById('today-price').textContent = '$' + m.soupSpecials.basePrice;
+
+  // Full week schedule
+  const order = ['1', '2', '3', '4', '5'];
+  document.getElementById('soup-week').innerHTML = order.map(k => {
+    const d = m.soupSpecials.byDay[k];
+    if (!d) return '<div></div>';  // empty cell preserves M/T/W/Th/F column alignment
+    return `<div><b style="color: var(--brown-dark); display: block;">${esc(d.dayLabel)}</b>${esc(d.name)}<br><i>${esc(d.desc).replace(/^w\//, '+ ')}</i></div>`;
+  }).join('');
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page">
+
+  <header class="slide-head" id="head"></header>
+
+  <div class="slide-body" style="padding: 50px 120px; justify-content: flex-start; gap: 30px;">
+
+    <div id="priceTag" style="text-align: center; font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: var(--red-deli); line-height: 1;"></div>
+
+    <div id="sides-list" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 60px; padding: 30px 60px; font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--brown-dark); text-transform: uppercase; letter-spacing: 0.02em; text-align: center;"></div>
+
+    <div id="extras-block" style="margin-top: 20px; padding: 24px 40px; background: #000; color: var(--cream); border-radius: 10px; text-align: center;">
+      <div id="extrasHeading" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;"></div>
+      <div id="extras-list" style="font-family: 'Lora', serif; font-size: 1.3rem; line-height: 1.6;"></div>
+    </div>
+
+  </div>
+
+  <footer class="slide-foot" id="foot"></footer>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  document.getElementById('head').textContent = m.sides.title;
+  document.getElementById('foot').textContent = `${m.info.name} · ${m.info.addressLine1} · ${m.info.phone}`;
+  document.getElementById('priceTag').textContent = 'All sides · $' + m.sides.basePrice;
+
+  document.getElementById('sides-list').innerHTML = m.sides.items.map(s =>
+    `<div>${esc(s.name)}</div>`
+  ).join('');
+
+  document.getElementById('extrasHeading').textContent = m.extras.title;
+  document.getElementById('extras-list').innerHTML = m.extras.items.map(e =>
+    `${esc(e.name)} <b style="color: var(--gold);">${esc(e.price)}</b>`
+  ).join(' &middot; ');
+})();
+</script>
+
+</body>
+</html>

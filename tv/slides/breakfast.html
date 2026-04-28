@@ -12,7 +12,7 @@
 
   <header class="slide-head" id="head">Breakfast</header>
 
-  <div class="slide-body" id="body" style="padding: 40px 120px;"></div>
+  <div class="slide-body" id="body" style="padding: 60px 140px; gap: 24px;"></div>
 
   <footer class="slide-foot" id="foot"></footer>
 
@@ -38,16 +38,6 @@
       `<span class="slide-row-price">${esc(item.price)}</span>`;
     body.appendChild(row);
   });
-
-  const meal = document.createElement('div');
-  meal.style.cssText = 'margin-top: 60px; padding: 30px 40px; background: var(--parchment); border-radius: 10px; border: 3px solid var(--gold);';
-  meal.innerHTML =
-    `<h3 style="font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; color: var(--red-deli); text-align: center; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px;">${esc(m.makeItAMeal.title)} &mdash; $${esc(m.makeItAMeal.basePrice)}</h3>` +
-    `<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 40px; font-family: 'Lora', serif; font-size: 1.5rem; color: var(--brown-dark); text-align: center;">` +
-    m.makeItAMeal.items.map(i => `<div>${esc(i.name)} · <b>${esc(i.price)}</b></div>`).join('') +
-    `<div style="font-style: italic; color: var(--text-muted);">${esc(m.makeItAMeal.note)}</div>` +
-    `</div>`;
-  body.appendChild(meal);
 })();
 </script>
 

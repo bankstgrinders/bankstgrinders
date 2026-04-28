@@ -443,9 +443,13 @@ function renderRotationSection(parent) {
   const txtBtn = el('button', { class: 'add-btn gold', text: '+ Text Slide' });
   txtBtn.onclick = () => showTextForm(body);
 
+  const sectionBtn = el('button', { class: 'add-btn', text: '+ Menu Section' });
+  sectionBtn.onclick = () => showMenuSectionPicker(body);
+
   addRow.appendChild(imgBtn);
   addRow.appendChild(vidBtn);
   addRow.appendChild(txtBtn);
+  addRow.appendChild(sectionBtn);
   addRow.appendChild(imgInput);
   addRow.appendChild(vidInput);
 
@@ -652,6 +656,49 @@ async function handleUpload(file, type) {
   } catch (e) {
     progress.textContent = `✗ Upload failed: ${e.message}`;
   }
+}
+
+// Menu-section slide templates the user can drop into the rotation. Each
+// is a pre-built HTML file in slides/ that fetches live data from menu.json.
+const MENU_SECTION_TEMPLATES = [
+  { src: 'slides/breakfast.html',     label: 'Breakfast',         duration: 10000 },
+  { src: 'slides/make-it-a-meal.html', label: 'Make It A Meal',   duration: 10000 },
+  { src: 'slides/sides.html',         label: 'Sides',             duration: 10000 },
+  { src: 'slides/soup-specials.html', label: 'Soup Specials',     duration: 12000 },
+  { src: 'slides/catering.html',      label: 'Catering',          duration: 10000 },
+  { src: 'slides/hours.html',         label: 'Hours',             duration: 8000 },
+];
+
+function showMenuSectionPicker(container) {
+  // Remove any existing picker (so a second tap re-opens fresh, doesn't stack)
+  const old = container.querySelector('.section-picker');
+  if (old) { old.remove(); return; }
+
+  const picker = el('div', { class: 'section-picker text-form' });
+  picker.appendChild(el('div', {
+    class: 'field-label',
+    text: 'Choose a menu section to add to the rotation:'
+  }));
+
+  const grid = el('div', { style: 'display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px;' });
+  for (const tmpl of MENU_SECTION_TEMPLATES) {
+    const btn = el('button', { class: 'add-btn', text: tmpl.label });
+    btn.onclick = () => {
+      playlist.slides.push({ type: 'html', src: tmpl.src, duration: tmpl.duration });
+      picker.remove();
+      refreshSlideList();
+    };
+    grid.appendChild(btn);
+  }
+  picker.appendChild(grid);
+
+  const cancelRow = el('div', { style: 'margin-top: 10px;' });
+  const cancelBtn = el('button', { class: 'slide-btn', text: 'Cancel' });
+  cancelBtn.onclick = () => picker.remove();
+  cancelRow.appendChild(cancelBtn);
+  picker.appendChild(cancelRow);
+
+  container.appendChild(picker);
 }
 
 function showTextForm(container, editIndex = null) {
