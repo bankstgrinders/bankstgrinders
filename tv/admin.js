@@ -134,18 +134,103 @@ function labeledInput(labelText, value, dataPath, opts = {}) {
   return wrap;
 }
 
-function renderItemRow(item, basePath, fields = ['name', 'desc', 'price']) {
+// Sandwich category labels for the "Move to" dropdown
+const SANDWICH_CATEGORIES = {
+  italianGrinders: 'Italian Grinders',
+  hotGrinders: 'Hot Grinders',
+  coldGrinders: 'Cold Grinders',
+  localFavorites: 'Local Favorites',
+  paninis: 'Paninis',
+};
+
+// Capture current input values, apply a mutation to the menu structure,
+// then re-render. Snapshot-via-collectForm preserves any in-progress edits.
+function mutateMenuAndReRender(mutationFn) {
+  const updated = collectForm();
+  mutationFn(updated);
+  menu = updated;
+  renderForm(menu);
+}
+
+function moveSandwichItem(categoryKey, index, delta) {
+  mutateMenuAndReRender(m => {
+    const items = m.sandwiches[categoryKey].items;
+    const j = index + delta;
+    if (j < 0 || j >= items.length) return;
+    [items[index], items[j]] = [items[j], items[index]];
+  });
+}
+
+function moveSandwichItemToCategory(srcKey, index, destKey) {
+  if (srcKey === destKey) return;
+  mutateMenuAndReRender(m => {
+    const item = m.sandwiches[srcKey].items.splice(index, 1)[0];
+    if (item) m.sandwiches[destKey].items.push(item);
+  });
+}
+
+function renderItemActions(reorderInfo) {
+  const bar = el('div', { class: 'item-actions' });
+
+  const upBtn = el('button', { class: 'item-btn', text: '↑' });
+  upBtn.title = 'Move up in this category';
+  upBtn.disabled = reorderInfo.index === 0;
+  upBtn.onclick = () => moveSandwichItem(reorderInfo.categoryKey, reorderInfo.index, -1);
+
+  const downBtn = el('button', { class: 'item-btn', text: '↓' });
+  downBtn.title = 'Move down in this category';
+  downBtn.disabled = reorderInfo.index === reorderInfo.total - 1;
+  downBtn.onclick = () => moveSandwichItem(reorderInfo.categoryKey, reorderInfo.index, 1);
+
+  bar.appendChild(upBtn);
+  bar.appendChild(downBtn);
+
+  // Cross-category move (only for sandwich items)
+  if (reorderInfo.kind === 'sandwiches') {
+    const select = document.createElement('select');
+    select.className = 'item-move-select';
+    const placeholder = document.createElement('option');
+    placeholder.textContent = 'Move to category…';
+    placeholder.value = '';
+    select.appendChild(placeholder);
+    for (const [key, label] of Object.entries(SANDWICH_CATEGORIES)) {
+      if (key === reorderInfo.categoryKey) continue;
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = label;
+      select.appendChild(opt);
+    }
+    select.onchange = () => {
+      if (select.value) {
+        moveSandwichItemToCategory(reorderInfo.categoryKey, reorderInfo.index, select.value);
+      }
+    };
+    bar.appendChild(select);
+  }
+
+  return bar;
+}
+
+function renderItemRow(item, basePath, optsOrFields = {}) {
+  // Backwards-compatible: callers may pass an array of field names directly,
+  // or an object { fields, reorder } for richer options.
+  const opts = Array.isArray(optsOrFields) ? { fields: optsOrFields } : optsOrFields;
+  const fields = opts.fields || ['name', 'desc', 'price'];
   const row = el('div', { class: fields.length === 2 ? 'item-row compact' : 'item-row' });
   if (fields.includes('name'))  row.appendChild(labeledInput('Name',  item.name,  `${basePath}.name`));
   if (fields.includes('desc'))  row.appendChild(labeledInput('Description', item.desc, `${basePath}.desc`));
   if (fields.includes('price')) row.appendChild(labeledInput('Price', item.price, `${basePath}.price`, { price: true }));
+  if (opts.reorder) row.appendChild(renderItemActions(opts.reorder));
   return row;
 }
 
 function renderSandwichCategory(key, data, parent) {
   const { sec, body } = section(data.title, data.note);
+  const total = data.items.length;
   data.items.forEach((item, i) => {
-    body.appendChild(renderItemRow(item, `sandwiches.${key}.items.${i}`));
+    body.appendChild(renderItemRow(item, `sandwiches.${key}.items.${i}`, {
+      reorder: { kind: 'sandwiches', categoryKey: key, index: i, total }
+    }));
   });
   parent.appendChild(sec);
 }
