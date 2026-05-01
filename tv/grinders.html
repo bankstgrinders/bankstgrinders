@@ -88,13 +88,7 @@
       col4.appendChild(note);
     }
     paninis.items.forEach(item => {
-      const row = document.createElement('div');
-      row.className = 'tv-item';
-      row.innerHTML =
-        `<span class="tv-item-name">${BSG.esc(item.name)}</span>` +
-        `<span class="tv-item-price">${BSG.esc(item.price)}</span>` +
-        (item.desc ? `<span class="tv-item-desc">${BSG.esc(item.desc)}</span>` : '');
-      col4.appendChild(row);
+      col4.appendChild(BSG.renderItem(item));
     });
   }
 

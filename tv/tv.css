@@ -129,6 +129,9 @@ html, body {
 }
 
 .tv-item {
+  /* Per-item scale: 1 = normal. Set inline via style=--item-scale: 0.85
+     etc. by menu-renderer.js when the item.size field is present. */
+  --item-scale: 1;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto;
@@ -138,7 +141,7 @@ html, body {
 
 .tv-item-name {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.85rem;
+  font-size: calc(1.85rem * var(--item-scale));
   font-weight: 700;
   color: var(--brown-dark);
   text-transform: uppercase;
@@ -148,7 +151,7 @@ html, body {
 
 .tv-item-price {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.85rem;
+  font-size: calc(1.85rem * var(--item-scale));
   font-weight: 700;
   color: var(--red-deli);
   white-space: nowrap;
@@ -157,7 +160,7 @@ html, body {
 .tv-item-desc {
   grid-column: 1 / 3;
   font-family: 'Lora', Georgia, serif;
-  font-size: 1.05rem;
+  font-size: calc(1.05rem * var(--item-scale));
   font-style: italic;
   color: var(--text-muted);
   line-height: 1.2;

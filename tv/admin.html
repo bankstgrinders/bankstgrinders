@@ -270,6 +270,30 @@
       -webkit-appearance: menulist;
     }
 
+    .item-size-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Lora', serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .item-size-input {
+      /* 16px font-size avoids iOS Safari auto-zoom on focus */
+      font-size: 16px;
+      width: 72px;
+      padding: 8px 10px;
+      min-height: 44px;
+      background: #fff;
+      color: var(--brown-dark);
+      border: 2px solid var(--parchment);
+      border-radius: 6px;
+      text-align: center;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .item-size-suffix { font-size: 0.95rem; }
+
     .field-label {
       display: block;
       font-family: 'Playfair Display', serif;

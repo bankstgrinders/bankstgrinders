@@ -185,6 +185,24 @@ function addSandwichItem(categoryKey) {
   }, 50);
 }
 
+function setSandwichItemSize(categoryKey, index, sizePct) {
+  // Clamp to 50-200; treat 100 as "remove the field" so the JSON stays
+  // clean for items at default size.
+  let v = Math.round(Number(sizePct));
+  if (!Number.isFinite(v)) v = 100;
+  v = Math.max(50, Math.min(200, v));
+  // Mutate menu in place — NO re-render. Size has no admin-visible side
+  // effect (the result is on the TV, not in the form), and re-rendering
+  // would destroy the size <input> and steal focus mid-edit, breaking
+  // the spinner / arrow-step tweaking flow. The change is captured on
+  // the next Save Changes via collectForm starting from menu state.
+  const cat = menu && menu.sandwiches && menu.sandwiches[categoryKey];
+  const item = cat && cat.items && cat.items[index];
+  if (!item) return;
+  if (v === 100) delete item.size;
+  else item.size = v;
+}
+
 function deleteSandwichItem(categoryKey, index) {
   const item = menu.sandwiches[categoryKey].items[index];
   const label = (item && item.name) ? item.name : 'this item';
@@ -231,6 +249,30 @@ function renderItemActions(reorderInfo) {
       }
     };
     bar.appendChild(select);
+
+    // Per-item size knob: 50-200%, default 100 = normal. Lets the user
+    // shrink one item that wraps onto a second line, or bump up a hero
+    // sandwich. Saved as item.size (omitted when 100).
+    const sizeWrap = el('label', { class: 'item-size-wrap' });
+    sizeWrap.appendChild(el('span', { class: 'item-size-label', text: 'Size' }));
+    const sizeInput = document.createElement('input');
+    sizeInput.type = 'number';
+    sizeInput.className = 'item-size-input';
+    sizeInput.min = '50';
+    sizeInput.max = '200';
+    sizeInput.step = '5';
+    sizeInput.setAttribute('inputmode', 'numeric');
+    sizeInput.title = '50–200, 100 = normal size';
+    const currentSize = (menu && menu.sandwiches && menu.sandwiches[reorderInfo.categoryKey]
+      && menu.sandwiches[reorderInfo.categoryKey].items[reorderInfo.index]
+      && menu.sandwiches[reorderInfo.categoryKey].items[reorderInfo.index].size) || 100;
+    sizeInput.value = String(currentSize);
+    sizeInput.onchange = () => {
+      setSandwichItemSize(reorderInfo.categoryKey, reorderInfo.index, sizeInput.value);
+    };
+    sizeWrap.appendChild(sizeInput);
+    sizeWrap.appendChild(el('span', { class: 'item-size-suffix', text: '%' }));
+    bar.appendChild(sizeWrap);
 
     const delBtn = el('button', { class: 'item-btn danger', text: 'Delete' });
     delBtn.title = 'Remove this sandwich from the menu';
