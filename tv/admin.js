@@ -563,6 +563,49 @@ function renderTv1Sections(m, parent) {
     body.appendChild(labeledInput('Price', m.catering.price, 'catering.price', { price: true }));
     parent.appendChild(sec);
   }
+
+  // ----- PROMOS (rotating-screen content) -----
+  {
+    const promos = m.promos = m.promos || {};
+    const combo = promos.combo = promos.combo || {};
+    const qr = promos.qr = promos.qr || {};
+
+    const { sec, body } = section(
+      'Promos (TV #2 slides)',
+      'Editable content for the Combo Deal and QR / Reviews slides on the rotating screen.'
+    );
+
+    // --- Combo Deal ---
+    const comboBlock = el('div', { style: 'padding: 14px 0; border-bottom: 1px solid var(--parchment); margin-bottom: 14px;' });
+    comboBlock.appendChild(el('div', {
+      style: 'font-family: \'Playfair Display\', serif; font-weight: 900; font-size: 1.15rem; color: var(--brown-dark); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;',
+      text: 'Combo Deal slide'
+    }));
+    const comboGrid = el('div', { class: 'info-grid' });
+    comboGrid.appendChild(labeledInput('Combo name', combo.name, 'promos.combo.name'));
+    comboGrid.appendChild(labeledInput('Price', combo.price, 'promos.combo.price', { price: true }));
+    comboGrid.appendChild(labeledInput('Items (one per line)', combo.items, 'promos.combo.items', { textarea: true, placeholder: 'Any sandwich\nChips\nDrink' }));
+    comboGrid.appendChild(labeledInput('Tagline (italic line under price)', combo.tagline, 'promos.combo.tagline'));
+    comboGrid.appendChild(labeledInput('Footer line (small caps)', combo.footer, 'promos.combo.footer'));
+    comboBlock.appendChild(comboGrid);
+    body.appendChild(comboBlock);
+
+    // --- QR / Reviews ---
+    const qrBlock = el('div', { style: 'padding: 14px 0;' });
+    qrBlock.appendChild(el('div', {
+      style: 'font-family: \'Playfair Display\', serif; font-weight: 900; font-size: 1.15rem; color: var(--brown-dark); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;',
+      text: 'QR / Reviews slide'
+    }));
+    const qrGrid = el('div', { class: 'info-grid' });
+    qrGrid.appendChild(labeledInput('Headline', qr.headline, 'promos.qr.headline', { placeholder: 'How are we doing?' }));
+    qrGrid.appendChild(labeledInput('Subtitle', qr.subtitle, 'promos.qr.subtitle', { textarea: true, placeholder: 'Tap the camera. Point at the code. Tell the world.' }));
+    qrGrid.appendChild(labeledInput('Kicker (small line above headline)', qr.kicker, 'promos.qr.kicker', { placeholder: 'Hey friend! 👋' }));
+    qrGrid.appendChild(labeledInput('Review URL (the QR target)', qr.url, 'promos.qr.url', { placeholder: 'https://g.page/r/<google-business-id>/review' }));
+    qrBlock.appendChild(qrGrid);
+    body.appendChild(qrBlock);
+
+    parent.appendChild(sec);
+  }
 }
 
 // Switch the active tab pane. Uses display:none on inactive panes so
@@ -842,9 +885,11 @@ async function handleUpload(file, type) {
 const MENU_SECTION_TEMPLATES = [
   { src: 'slides/welcome.html',         label: 'Welcome / Our Story',  duration: 10000 },
   { src: 'slides/whats-a-grinder.html', label: "What's a Grinder?",    duration: 10000 },
+  { src: 'slides/combo-deal.html',      label: 'Combo Deal',           duration: 10000 },
   { src: 'slides/make-it-a-meal.html',  label: 'Make It A Meal',       duration: 10000 },
   { src: 'slides/sides.html',           label: 'Sides',                duration: 10000 },
   { src: 'slides/soup-specials.html',   label: 'Soup Specials',        duration: 12000 },
+  { src: 'slides/qr-reviews.html',      label: 'QR / Reviews',         duration: 10000 },
   { src: 'slides/order-ahead.html',     label: 'Order Ahead (phone)',  duration: 8000 },
   { src: 'slides/hours.html',           label: 'Hours',                duration: 8000 },
 ];

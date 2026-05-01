@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page" style="background: var(--cream); grid-template-rows: 0 1fr 0;">
+
+  <div class="slide-body" style="grid-row: 2; display: grid; grid-template-rows: auto 1fr auto; padding: 70px 100px; gap: 30px; text-align: center;">
+
+    <!-- Top stamp / kicker -->
+    <div style="display: inline-block; align-self: center; padding: 14px 36px; background: var(--red-deli); color: var(--cream); font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 6px; transform: rotate(-1.5deg); box-shadow: 0 4px 16px rgba(139,26,26,0.25);">Combo Deal</div>
+
+    <!-- Hero block: name + items + price -->
+    <div style="display: grid; grid-template-rows: auto auto auto; align-content: center; gap: 28px; padding: 40px 60px; background: var(--parchment); border: 5px solid var(--gold); border-radius: 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+
+      <div id="comboName" style="font-family: 'Playfair Display', serif; font-size: 4.4rem; font-weight: 900; color: var(--brown-dark); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.05;"></div>
+
+      <div id="comboItems" style="display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 22px 36px; font-family: 'Lora', serif; font-size: 2.2rem; color: var(--brown-dark);"></div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+        <div id="comboPrice" style="font-family: 'Playfair Display', serif; font-size: 7rem; font-weight: 900; color: var(--red-deli); line-height: 0.95; letter-spacing: 0.02em;"></div>
+        <div id="comboTagline" style="font-family: 'Lora', serif; font-style: italic; font-size: 1.7rem; color: var(--text-muted);"></div>
+      </div>
+
+    </div>
+
+    <div id="comboFooter" style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown-mid); letter-spacing: 0.14em; text-transform: uppercase;"></div>
+
+  </div>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const combo = (m.promos && m.promos.combo) || {};
+
+  document.getElementById('comboName').textContent = combo.name || 'Combo Deal';
+
+  // Items: a single string with one item per line. Falls back to a sensible default.
+  const itemsRaw = String(combo.items || 'Any sandwich\nChips\nDrink');
+  const itemsList = itemsRaw.split('\n').map(s => s.trim()).filter(Boolean);
+  document.getElementById('comboItems').innerHTML = itemsList
+    .map((item, i) => {
+      const sep = i < itemsList.length - 1 ? ' <span style="color: var(--gold); font-weight: 900;">+</span> ' : '';
+      return `<span>${esc(item)}</span>${sep}`;
+    })
+    .join('');
+
+  document.getElementById('comboPrice').textContent = combo.price ? '$' + combo.price : '';
+  document.getElementById('comboTagline').textContent = combo.tagline || '';
+
+  const footer = combo.footer || '';
+  const footEl = document.getElementById('comboFooter');
+  if (footer) footEl.textContent = footer;
+  else footEl.style.display = 'none';
+})();
+</script>
+
+</body>
+</html>
