@@ -569,18 +569,127 @@ function renderTv1Sections(m, parent) {
     const promos = m.promos = m.promos || {};
     const combo = promos.combo = promos.combo || {};
     const qr = promos.qr = promos.qr || {};
+    const featured = promos.featured = promos.featured || {};
 
     const { sec, body } = section(
       'Promos (TV #2 slides)',
-      'Editable content for the Combo Deal and QR / Reviews slides on the rotating screen.'
+      'Editable content for the Combo Deal, QR / Reviews, and Featured Sandwich slides on the rotating screen.'
     );
+
+    const subhead = (text) => el('div', {
+      style: "font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.15rem; color: var(--brown-dark); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;",
+      text
+    });
+
+    // --- Featured Sandwich ---
+    const featBlock = el('div', { style: 'padding: 14px 0; border-bottom: 1px solid var(--parchment); margin-bottom: 14px;' });
+    featBlock.appendChild(subhead('Featured Sandwich slide'));
+
+    // Item picker — flat list of all sandwich items grouped by category
+    const featItemRow = el('div', { class: 'field' });
+    featItemRow.appendChild(el('label', { class: 'field-label', text: 'Featured item' }));
+    const featSelect = document.createElement('select');
+    featSelect.className = 'item-move-select';
+    featSelect.style.cssText = 'min-width: 280px;';
+    const placeholderOpt = document.createElement('option');
+    placeholderOpt.value = '';
+    placeholderOpt.textContent = '— pick a sandwich —';
+    featSelect.appendChild(placeholderOpt);
+    for (const catKey of ['italianGrinders', 'hotGrinders', 'coldGrinders', 'localFavorites', 'paninis']) {
+      const cat = m.sandwiches && m.sandwiches[catKey];
+      if (!cat || !Array.isArray(cat.items) || cat.items.length === 0) continue;
+      const group = document.createElement('optgroup');
+      group.label = cat.title || catKey;
+      cat.items.forEach((item, i) => {
+        const opt = document.createElement('option');
+        opt.value = `${catKey}.${i}`;
+        opt.textContent = item.name || '(unnamed)';
+        if (featured.itemRef === opt.value) opt.selected = true;
+        group.appendChild(opt);
+      });
+      featSelect.appendChild(group);
+    }
+    featSelect.onchange = () => {
+      if (!menu.promos) menu.promos = {};
+      if (!menu.promos.featured) menu.promos.featured = {};
+      menu.promos.featured.itemRef = featSelect.value;
+    };
+    featItemRow.appendChild(featSelect);
+    featBlock.appendChild(featItemRow);
+
+    // Photo upload + live thumbnail
+    const photoRow = el('div', { class: 'field', style: 'margin-top: 14px;' });
+    photoRow.appendChild(el('label', { class: 'field-label', text: 'Hero photo (uploaded image)' }));
+    const photoBar = el('div', { style: 'display: flex; gap: 14px; align-items: center; flex-wrap: wrap;' });
+    const thumb = document.createElement('img');
+    thumb.alt = 'Featured photo';
+    thumb.style.cssText = 'width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 2px solid var(--parchment); background: var(--parchment); display: ' + (featured.image ? 'block' : 'none') + ';';
+    if (featured.image) thumb.src = '/tv/' + featured.image + '?t=' + Date.now();
+    const noPhotoLabel = el('div', {
+      style: 'width: 96px; height: 96px; display: ' + (featured.image ? 'none' : 'flex') + '; align-items: center; justify-content: center; text-align: center; padding: 8px; font-family: Lora, serif; font-style: italic; font-size: 0.8rem; color: var(--text-muted); background: var(--parchment); border-radius: 8px;',
+      text: 'No photo yet'
+    });
+    const photoFileInput = document.createElement('input');
+    photoFileInput.type = 'file';
+    photoFileInput.accept = 'image/*';
+    photoFileInput.style.display = 'none';
+    const photoUploadBtn = el('button', { class: 'add-btn', text: featured.image ? 'Replace photo' : 'Upload photo' });
+    const photoStatus = el('div', { style: 'font-family: Lora, serif; font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;' });
+    photoUploadBtn.onclick = () => photoFileInput.click();
+    photoFileInput.onchange = async () => {
+      const file = photoFileInput.files[0];
+      photoFileInput.value = '';
+      if (!file) return;
+      photoStatus.textContent = `Uploading ${file.name}…`;
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        const res = await fetch('/api/slides/upload', {
+          method: 'POST',
+          headers: { Authorization: `Basic ${getAuth()}` },
+          body: fd
+        });
+        // 401 returns a plain-text body from auth_required(), not JSON.
+        // Match save()'s recovery: clear creds and bounce to the login form
+        // rather than dying silently with "HTTP 401".
+        if (res.status === 401) { clearAuth(); showLogin(); return; }
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || `HTTP ${res.status}`);
+        }
+        const out = await res.json();
+        if (!menu.promos) menu.promos = {};
+        if (!menu.promos.featured) menu.promos.featured = {};
+        menu.promos.featured.image = out.src;
+        thumb.src = '/tv/' + out.src + '?t=' + Date.now();
+        thumb.style.display = 'block';
+        noPhotoLabel.style.display = 'none';
+        photoUploadBtn.textContent = 'Replace photo';
+        photoStatus.textContent = `✓ Uploaded ${out.name} — don't forget to Save Changes`;
+        setTimeout(() => { photoStatus.textContent = ''; }, 6000);
+      } catch (e) {
+        photoStatus.textContent = `✗ Upload failed: ${e.message}`;
+      }
+    };
+    photoBar.appendChild(thumb);
+    photoBar.appendChild(noPhotoLabel);
+    photoBar.appendChild(photoUploadBtn);
+    photoBar.appendChild(photoFileInput);
+    photoRow.appendChild(photoBar);
+    photoRow.appendChild(photoStatus);
+    featBlock.appendChild(photoRow);
+
+    // Optional copy overrides
+    const featGrid = el('div', { class: 'info-grid', style: 'margin-top: 14px;' });
+    featGrid.appendChild(labeledInput('Kicker (optional, small line above name)', featured.kicker, 'promos.featured.kicker', { placeholder: "This week we're loving" }));
+    featGrid.appendChild(labeledInput('Tagline override (optional, replaces item description)', featured.taglineOverride, 'promos.featured.taglineOverride', { textarea: true, placeholder: "Leave blank to use the item's regular description" }));
+    featBlock.appendChild(featGrid);
+
+    body.appendChild(featBlock);
 
     // --- Combo Deal ---
     const comboBlock = el('div', { style: 'padding: 14px 0; border-bottom: 1px solid var(--parchment); margin-bottom: 14px;' });
-    comboBlock.appendChild(el('div', {
-      style: 'font-family: \'Playfair Display\', serif; font-weight: 900; font-size: 1.15rem; color: var(--brown-dark); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;',
-      text: 'Combo Deal slide'
-    }));
+    comboBlock.appendChild(subhead('Combo Deal slide'));
     const comboGrid = el('div', { class: 'info-grid' });
     comboGrid.appendChild(labeledInput('Combo name', combo.name, 'promos.combo.name'));
     comboGrid.appendChild(labeledInput('Price', combo.price, 'promos.combo.price', { price: true }));
@@ -592,10 +701,7 @@ function renderTv1Sections(m, parent) {
 
     // --- QR / Reviews ---
     const qrBlock = el('div', { style: 'padding: 14px 0;' });
-    qrBlock.appendChild(el('div', {
-      style: 'font-family: \'Playfair Display\', serif; font-weight: 900; font-size: 1.15rem; color: var(--brown-dark); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;',
-      text: 'QR / Reviews slide'
-    }));
+    qrBlock.appendChild(subhead('QR / Reviews slide'));
     const qrGrid = el('div', { class: 'info-grid' });
     qrGrid.appendChild(labeledInput('Headline', qr.headline, 'promos.qr.headline', { placeholder: 'How are we doing?' }));
     qrGrid.appendChild(labeledInput('Subtitle', qr.subtitle, 'promos.qr.subtitle', { textarea: true, placeholder: 'Tap the camera. Point at the code. Tell the world.' }));
@@ -858,6 +964,9 @@ async function handleUpload(file, type) {
       headers: { Authorization: `Basic ${getAuth()}` },
       body: fd
     });
+    // 401 returns plain text from auth_required(), not JSON. Match save()'s
+    // recovery so an expired session bounces back to login instead of dying.
+    if (res.status === 401) { clearAuth(); showLogin(); return; }
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.error || `HTTP ${res.status}`);
@@ -883,6 +992,7 @@ async function handleUpload(file, type) {
 // playlist references but are intentionally NOT in the picker — the user
 // doesn't want them in the daily rotation.)
 const MENU_SECTION_TEMPLATES = [
+  { src: 'slides/featured-sandwich.html', label: 'Featured Sandwich',  duration: 10000 },
   { src: 'slides/welcome.html',         label: 'Welcome / Our Story',  duration: 10000 },
   { src: 'slides/whats-a-grinder.html', label: "What's a Grinder?",    duration: 10000 },
   { src: 'slides/combo-deal.html',      label: 'Combo Deal',           duration: 10000 },

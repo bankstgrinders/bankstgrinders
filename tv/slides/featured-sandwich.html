@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="slide-page" id="page" style="position: relative; background: #000; color: var(--cream); grid-template-rows: 1fr; overflow: hidden;">
+
+  <!-- Full-bleed hero image (loaded via JS so we can fall back gracefully) -->
+  <img id="heroImg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none;" />
+
+  <!-- Dark gradient overlay so text stays readable on any photo -->
+  <div id="overlay" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.85) 100%); display: none;"></div>
+
+  <!-- Foreground content -->
+  <div class="slide-body" style="grid-row: 1; position: relative; z-index: 2; display: grid; grid-template-rows: auto 1fr auto; padding: 70px 100px; gap: 30px; text-align: center;">
+
+    <div id="kicker" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,0.6);">This week we're loving</div>
+
+    <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 18px;">
+      <div id="featuredName" style="font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 900; color: var(--cream); letter-spacing: 0.02em; line-height: 0.95; text-transform: uppercase; text-shadow: 0 4px 24px rgba(0,0,0,0.7);"></div>
+      <div id="featuredDesc" style="font-family: 'Lora', serif; font-style: italic; font-size: 2rem; color: var(--cream); max-width: 1500px; line-height: 1.35; text-shadow: 0 2px 12px rgba(0,0,0,0.6);"></div>
+    </div>
+
+    <div id="priceTag" style="display: inline-block; align-self: center; padding: 18px 42px; background: var(--red-deli); color: var(--cream); font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; letter-spacing: 0.04em; line-height: 1; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); border: 4px solid var(--gold);"></div>
+
+  </div>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+
+  const featured = (m.promos && m.promos.featured) || {};
+
+  // Resolve the referenced sandwich item via "categoryKey.index" (e.g. "italianGrinders.0")
+  function resolveItem(ref) {
+    if (!ref || typeof ref !== 'string') return null;
+    const dot = ref.indexOf('.');
+    if (dot < 1) return null;
+    const cat = ref.slice(0, dot);
+    const idx = Number(ref.slice(dot + 1));
+    if (!Number.isFinite(idx) || idx < 0) return null;
+    const items = m.sandwiches && m.sandwiches[cat] && m.sandwiches[cat].items;
+    return Array.isArray(items) && items[idx] ? items[idx] : null;
+  }
+
+  const item = resolveItem(featured.itemRef);
+  const name = (item && item.name) || featured.titleOverride || 'This Week\'s Pick';
+  const desc = (featured.taglineOverride && featured.taglineOverride.trim()) || (item && item.desc) || '';
+  const price = (item && item.price) || featured.priceOverride || '';
+  const kicker = (featured.kicker && featured.kicker.trim()) || 'This week we\'re loving';
+
+  document.getElementById('kicker').textContent = kicker;
+  document.getElementById('featuredName').textContent = name;
+  document.getElementById('featuredDesc').textContent = desc;
+  const priceEl = document.getElementById('priceTag');
+  if (price) priceEl.textContent = '$' + String(price).replace(/^\$+/, '');
+  else priceEl.style.display = 'none';
+
+  // Photo: load the configured image; on success show it + the gradient overlay.
+  // On failure (no image configured, broken path, etc.), keep the solid black
+  // background — text is already readable on that.
+  const imgPath = (featured.image || '').trim();
+  if (imgPath) {
+    const heroImg = document.getElementById('heroImg');
+    const overlay = document.getElementById('overlay');
+    heroImg.onload = () => {
+      heroImg.style.display = 'block';
+      overlay.style.display = 'block';
+    };
+    heroImg.onerror = () => { /* leave black background */ };
+    // Resolve relative to /tv/, so 'slides/foo.jpg' becomes '../slides/foo.jpg'
+    heroImg.src = imgPath.startsWith('/') ? imgPath : `../${imgPath}`;
+  }
+})();
+</script>
+
+</body>
+</html>
