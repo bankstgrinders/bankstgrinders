@@ -49,6 +49,14 @@
     if (Number.isFinite(size) && size !== 100 && size >= 50 && size <= 200) {
       el.style.setProperty('--item-scale', String(size / 100));
     }
+    // Optional desc-only overrides — independent of item.size
+    const descSize = Number(item.descSize);
+    if (Number.isFinite(descSize) && descSize >= 50 && descSize <= 200) {
+      el.style.setProperty('--desc-scale', String(descSize / 100));
+    }
+    if (item.descBold === true) {
+      el.style.setProperty('--desc-weight', '700');
+    }
     el.innerHTML =
       `<span class="tv-item-name">${esc(item.name)}</span>` +
       `<span class="tv-item-price">${esc(item.price)}</span>` +

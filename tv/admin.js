@@ -203,6 +203,29 @@ function setSandwichItemSize(categoryKey, index, sizePct) {
   else item.size = v;
 }
 
+function setSandwichItemDescSize(categoryKey, index, val) {
+  // descSize is OPTIONAL and INDEPENDENT of item.size. When unset, desc
+  // follows --item-scale via CSS fallback. When set (50-200), it
+  // overrides the desc scale only. Empty input → delete the field.
+  const cat = menu && menu.sandwiches && menu.sandwiches[categoryKey];
+  const item = cat && cat.items && cat.items[index];
+  if (!item) return;
+  const trimmed = String(val == null ? '' : val).trim();
+  if (trimmed === '') { delete item.descSize; return; }
+  let v = Math.round(Number(trimmed));
+  if (!Number.isFinite(v)) { delete item.descSize; return; }
+  v = Math.max(50, Math.min(200, v));
+  item.descSize = v;
+}
+
+function setSandwichItemDescBold(categoryKey, index, bold) {
+  const cat = menu && menu.sandwiches && menu.sandwiches[categoryKey];
+  const item = cat && cat.items && cat.items[index];
+  if (!item) return;
+  if (bold) item.descBold = true;
+  else delete item.descBold;
+}
+
 function deleteSandwichItem(categoryKey, index) {
   const item = menu.sandwiches[categoryKey].items[index];
   const label = (item && item.name) ? item.name : 'this item';
@@ -273,6 +296,43 @@ function renderItemActions(reorderInfo) {
     sizeWrap.appendChild(sizeInput);
     sizeWrap.appendChild(el('span', { class: 'item-size-suffix', text: '%' }));
     bar.appendChild(sizeWrap);
+
+    // Description-only overrides: size (independent of item size) + bold toggle.
+    // Both are optional. Leaving Desc size blank means "follow item size".
+    const descWrap = el('label', { class: 'item-size-wrap' });
+    descWrap.appendChild(el('span', { class: 'item-size-label', text: 'Desc' }));
+    const descSizeInput = document.createElement('input');
+    descSizeInput.type = 'number';
+    descSizeInput.className = 'item-size-input';
+    descSizeInput.min = '50';
+    descSizeInput.max = '200';
+    descSizeInput.step = '5';
+    descSizeInput.placeholder = 'auto';
+    descSizeInput.setAttribute('inputmode', 'numeric');
+    descSizeInput.title = 'Desc size override (50–200). Blank = follow item size.';
+    const itemRef = (menu && menu.sandwiches && menu.sandwiches[reorderInfo.categoryKey]
+      && menu.sandwiches[reorderInfo.categoryKey].items[reorderInfo.index]) || {};
+    descSizeInput.value = (Number.isFinite(itemRef.descSize) && itemRef.descSize >= 50 && itemRef.descSize <= 200)
+      ? String(itemRef.descSize) : '';
+    descSizeInput.onchange = () => {
+      setSandwichItemDescSize(reorderInfo.categoryKey, reorderInfo.index, descSizeInput.value);
+    };
+    descWrap.appendChild(descSizeInput);
+    descWrap.appendChild(el('span', { class: 'item-size-suffix', text: '%' }));
+
+    const boldLabel = el('label', { class: 'item-size-wrap', style: 'cursor: pointer;' });
+    const boldCheck = document.createElement('input');
+    boldCheck.type = 'checkbox';
+    boldCheck.className = 'item-bold-check';
+    boldCheck.checked = itemRef.descBold === true;
+    boldCheck.onchange = () => {
+      setSandwichItemDescBold(reorderInfo.categoryKey, reorderInfo.index, boldCheck.checked);
+    };
+    boldLabel.appendChild(boldCheck);
+    boldLabel.appendChild(el('span', { class: 'item-size-label', text: 'Bold' }));
+
+    bar.appendChild(descWrap);
+    bar.appendChild(boldLabel);
 
     const delBtn = el('button', { class: 'item-btn danger', text: 'Delete' });
     delBtn.title = 'Remove this sandwich from the menu';

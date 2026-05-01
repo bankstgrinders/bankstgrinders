@@ -160,7 +160,12 @@ html, body {
 .tv-item-desc {
   grid-column: 1 / 3;
   font-family: 'Lora', Georgia, serif;
-  font-size: calc(1.05rem * var(--item-scale));
+  /* Desc inherits --item-scale by default. Setting --desc-scale on a
+     specific item (via item.descSize in menu.json) overrides just the
+     description, leaving name + price at the item-scale. Bold weight
+     is also opt-in per item via --desc-weight. */
+  font-size: calc(1.05rem * var(--desc-scale, var(--item-scale)));
+  font-weight: var(--desc-weight, 400);
   font-style: italic;
   color: var(--text-muted);
   line-height: 1.2;
