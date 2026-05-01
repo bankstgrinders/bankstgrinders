@@ -357,7 +357,18 @@ function renderItemRow(item, basePath, optsOrFields = {}) {
 }
 
 function renderSandwichCategory(key, data, parent) {
-  const { sec, body } = section(data.title, data.note);
+  const { sec, body } = section(data.title);
+
+  // Editable "works" note for the category — shown above the items as a
+  // small italic line on the static menu (e.g. "The Works: lettuce,
+  // tomato, onion, mayo..."). Empty for categories that don't need one.
+  body.appendChild(labeledInput(
+    '"The Works" note (small italic line above the items)',
+    data.note,
+    `sandwiches.${key}.note`,
+    { textarea: true, placeholder: 'Optional — leave blank for none' }
+  ));
+
   const total = data.items.length;
   data.items.forEach((item, i) => {
     body.appendChild(renderItemRow(item, `sandwiches.${key}.items.${i}`, {
