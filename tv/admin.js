@@ -836,13 +836,17 @@ async function handleUpload(file, type) {
 
 // Menu-section slide templates the user can drop into the rotation. Each
 // is a pre-built HTML file in slides/ that fetches live data from menu.json.
+// (breakfast.html and catering.html still exist on disk for historical
+// playlist references but are intentionally NOT in the picker — the user
+// doesn't want them in the daily rotation.)
 const MENU_SECTION_TEMPLATES = [
-  { src: 'slides/breakfast.html',     label: 'Breakfast',         duration: 10000 },
-  { src: 'slides/make-it-a-meal.html', label: 'Make It A Meal',   duration: 10000 },
-  { src: 'slides/sides.html',         label: 'Sides',             duration: 10000 },
-  { src: 'slides/soup-specials.html', label: 'Soup Specials',     duration: 12000 },
-  { src: 'slides/catering.html',      label: 'Catering',          duration: 10000 },
-  { src: 'slides/hours.html',         label: 'Hours',             duration: 8000 },
+  { src: 'slides/welcome.html',         label: 'Welcome / Our Story',  duration: 10000 },
+  { src: 'slides/whats-a-grinder.html', label: "What's a Grinder?",    duration: 10000 },
+  { src: 'slides/make-it-a-meal.html',  label: 'Make It A Meal',       duration: 10000 },
+  { src: 'slides/sides.html',           label: 'Sides',                duration: 10000 },
+  { src: 'slides/soup-specials.html',   label: 'Soup Specials',        duration: 12000 },
+  { src: 'slides/order-ahead.html',     label: 'Order Ahead (phone)',  duration: 8000 },
+  { src: 'slides/hours.html',           label: 'Hours',                duration: 8000 },
 ];
 
 function showMenuSectionPicker(container) {

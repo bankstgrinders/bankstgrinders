@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../tv.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Subtle pulse on the phone number to draw the eye */
+    @keyframes phonePulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.025); }
+    }
+    .phone-pulse { animation: phonePulse 2.4s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+<div class="slide-page" style="background: var(--red-deli); color: var(--cream); grid-template-rows: 0 1fr 0;">
+
+  <div class="slide-body" style="grid-row: 2; display: grid; grid-template-rows: auto 1fr auto; padding: 80px 120px; gap: 24px; text-align: center;">
+
+    <div style="font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; line-height: 1;">Skip the line</div>
+
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px;">
+      <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--cream); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1;">Call ahead</div>
+      <div id="phoneNumber" class="phone-pulse" style="font-family: 'Playfair Display', serif; font-size: 11rem; font-weight: 900; color: var(--cream); letter-spacing: 0.02em; line-height: 0.95; text-shadow: 0 4px 20px rgba(0,0,0,0.25);"></div>
+      <div style="font-family: 'Lora', serif; font-style: italic; font-size: 2rem; color: var(--gold); max-width: 1400px; line-height: 1.3;">Your sandwich, ready when you are.</div>
+    </div>
+
+    <div style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); opacity: 0.85; letter-spacing: 0.12em; text-transform: uppercase;">Walk in &middot; Order ready &middot; You eat</div>
+
+  </div>
+
+</div>
+
+<script>
+(async () => {
+  const res = await fetch('../data/menu.json?t=' + Date.now(), { cache: 'no-store' });
+  const m = await res.json();
+  document.getElementById('phoneNumber').textContent = m.info.phone || '';
+})();
+</script>
+
+</body>
+</html>
