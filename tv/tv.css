@@ -184,7 +184,10 @@ html, body {
 
 .tv-works-note {
   text-align: center;
-  font-size: 1.05rem;
+  /* Per-category overrides via section.noteSize / section.noteBold;
+     menu-renderer.js sets --note-scale and --note-weight inline. */
+  font-size: calc(1.05rem * var(--note-scale, 1));
+  font-weight: var(--note-weight, 400);
   color: var(--text-muted);
   font-style: italic;
   padding: 5px 10px;

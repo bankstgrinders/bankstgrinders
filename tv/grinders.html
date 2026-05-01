@@ -80,12 +80,10 @@
 
   const paninis = menu.sandwiches.paninis;
   if (paninis?.items?.length) {
-    if (paninis.note) {
-      const note = document.createElement('div');
-      note.className = 'tv-works-note';
-      note.style.marginTop = '8px';
-      note.textContent = paninis.note;
-      col4.appendChild(note);
+    const paniniNote = BSG.renderNote(paninis);
+    if (paniniNote) {
+      paniniNote.style.marginTop = '8px';
+      col4.appendChild(paniniNote);
     }
     paninis.items.forEach(item => {
       col4.appendChild(BSG.renderItem(item));

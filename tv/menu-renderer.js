@@ -26,16 +26,30 @@
     heading.textContent = section.title;
     container.appendChild(heading);
 
-    if (section.note) {
-      const note = document.createElement('div');
-      note.className = 'tv-works-note';
-      note.textContent = section.note;
-      container.appendChild(note);
-    }
+    const noteEl = renderNote(section);
+    if (noteEl) container.appendChild(noteEl);
 
     section.items.forEach(item => {
       container.appendChild(renderItem(item));
     });
+  }
+
+  // Build a .tv-works-note element for a category's "works" line, or null
+  // if the section has no note. Honors section.noteSize (50-200) and
+  // section.noteBold via inline CSS custom properties.
+  function renderNote(section) {
+    if (!section || !section.note) return null;
+    const note = document.createElement('div');
+    note.className = 'tv-works-note';
+    note.textContent = section.note;
+    const noteSize = Number(section.noteSize);
+    if (Number.isFinite(noteSize) && noteSize >= 50 && noteSize <= 200) {
+      note.style.setProperty('--note-scale', String(noteSize / 100));
+    }
+    if (section.noteBold === true) {
+      note.style.setProperty('--note-weight', '700');
+    }
+    return note;
   }
 
   // Build a single <.tv-item> DOM element for a sandwich/panini item.
@@ -86,6 +100,7 @@
     },
     renderSandwichSection,
     renderItem,
+    renderNote,
     pollForChanges,
     esc
   };

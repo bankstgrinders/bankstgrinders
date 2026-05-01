@@ -187,8 +187,10 @@ function addSandwichItem(categoryKey) {
 
 function setSandwichItemSize(categoryKey, index, sizePct) {
   // Clamp to 50-200; treat 100 as "remove the field" so the JSON stays
-  // clean for items at default size.
-  let v = Math.round(Number(sizePct));
+  // clean for items at default size. Trim empty-string inputs to 100
+  // (default) instead of letting Number('') === 0 clamp to 50.
+  const trimmed = String(sizePct == null ? '' : sizePct).trim();
+  let v = trimmed === '' ? 100 : Math.round(Number(trimmed));
   if (!Number.isFinite(v)) v = 100;
   v = Math.max(50, Math.min(200, v));
   // Mutate menu in place — NO re-render. Size has no admin-visible side
@@ -224,6 +226,29 @@ function setSandwichItemDescBold(categoryKey, index, bold) {
   if (!item) return;
   if (bold) item.descBold = true;
   else delete item.descBold;
+}
+
+// "The Works" note size/bold controls — same in-place mutation pattern
+// as the per-item knobs (no re-render, preserves input focus).
+function setSandwichCategoryNoteSize(categoryKey, val) {
+  const cat = menu && menu.sandwiches && menu.sandwiches[categoryKey];
+  if (!cat) return;
+  // Trim first — empty input means "back to default" (100), not 0.
+  // Without this, Number('') is 0, which is finite, and the clamp
+  // below would silently store 50.
+  const trimmed = String(val == null ? '' : val).trim();
+  let v = trimmed === '' ? 100 : Math.round(Number(trimmed));
+  if (!Number.isFinite(v)) v = 100;
+  v = Math.max(50, Math.min(200, v));
+  if (v === 100) delete cat.noteSize;
+  else cat.noteSize = v;
+}
+
+function setSandwichCategoryNoteBold(categoryKey, bold) {
+  const cat = menu && menu.sandwiches && menu.sandwiches[categoryKey];
+  if (!cat) return;
+  if (bold) cat.noteBold = true;
+  else delete cat.noteBold;
 }
 
 function deleteSandwichItem(categoryKey, index) {
@@ -368,6 +393,44 @@ function renderSandwichCategory(key, data, parent) {
     `sandwiches.${key}.note`,
     { textarea: true, placeholder: 'Optional — leave blank for none' }
   ));
+
+  // Size + bold controls for the works note, in a small toolbar.
+  const noteCtrls = el('div', { class: 'item-actions', style: 'margin-bottom: 14px;' });
+
+  const sizeWrap = el('label', { class: 'item-size-wrap' });
+  sizeWrap.appendChild(el('span', { class: 'item-size-label', text: 'Note size' }));
+  const sizeInput = document.createElement('input');
+  sizeInput.type = 'number';
+  sizeInput.className = 'item-size-input';
+  sizeInput.min = '50';
+  sizeInput.max = '200';
+  sizeInput.step = '5';
+  sizeInput.setAttribute('inputmode', 'numeric');
+  sizeInput.title = '50–200, 100 = normal size';
+  sizeInput.value = String(
+    (Number.isFinite(data.noteSize) && data.noteSize >= 50 && data.noteSize <= 200)
+      ? data.noteSize : 100
+  );
+  sizeInput.onchange = () => {
+    setSandwichCategoryNoteSize(key, sizeInput.value);
+  };
+  sizeWrap.appendChild(sizeInput);
+  sizeWrap.appendChild(el('span', { class: 'item-size-suffix', text: '%' }));
+
+  const boldLabel = el('label', { class: 'item-size-wrap', style: 'cursor: pointer;' });
+  const boldCheck = document.createElement('input');
+  boldCheck.type = 'checkbox';
+  boldCheck.className = 'item-bold-check';
+  boldCheck.checked = data.noteBold === true;
+  boldCheck.onchange = () => {
+    setSandwichCategoryNoteBold(key, boldCheck.checked);
+  };
+  boldLabel.appendChild(boldCheck);
+  boldLabel.appendChild(el('span', { class: 'item-size-label', text: 'Bold' }));
+
+  noteCtrls.appendChild(sizeWrap);
+  noteCtrls.appendChild(boldLabel);
+  body.appendChild(noteCtrls);
 
   const total = data.items.length;
   data.items.forEach((item, i) => {
