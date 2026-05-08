@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Handbook — Bank St. Grinders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:     #f5f0e8;
+      --parchment: #e8dfc8;
+      --brown-dark:#3b2314;
+      --brown-mid: #6b3f23;
+      --red-deli:  #8b1a1a;
+      --gold:      #c49a3c;
+      --text-dark: #2a1a0e;
+      --text-muted:#6b5040;
+      --rule:      #b8a585;
+    }
+
+    html { background: #d8d0c0; }
+    body {
+      font-family: 'Lora', Georgia, serif;
+      color: var(--text-dark);
+      line-height: 1.45;
+      background: #d8d0c0;
+    }
+
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 24px auto;
+      padding: 0.85in 0.85in 0.85in 0.85in;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+      page-break-after: always;
+      position: relative;
+    }
+    .page:last-child { page-break-after: auto; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.8rem;
+      color: var(--red-deli);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+    h1 small {
+      display: block;
+      font-family: 'Lora', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      letter-spacing: 0.03em;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.7rem;
+      color: var(--red-deli);
+      margin-top: 28px;
+      margin-bottom: 4px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+    }
+    h2 .num {
+      display: inline-block;
+      width: 1.4em;
+      color: var(--gold);
+      font-weight: 900;
+    }
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--brown-dark);
+      margin-top: 18px;
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+    p { margin-bottom: 10px; }
+    p.lead {
+      font-size: 1.05rem;
+      color: var(--brown-dark);
+      margin-top: 12px;
+    }
+
+    .kicker {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    code, .url {
+      font-family: 'Courier New', Courier, monospace;
+      background: var(--parchment);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 0.95em;
+      color: var(--brown-dark);
+    }
+
+    ul, ol { margin: 6px 0 12px 22px; }
+    li { margin-bottom: 5px; }
+
+    .callout {
+      background: var(--parchment);
+      border-left: 5px solid var(--gold);
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-style: italic;
+      color: var(--brown-dark);
+      border-radius: 0 4px 4px 0;
+    }
+    .callout b { font-style: normal; color: var(--red-deli); }
+
+    .fill {
+      display: inline-block;
+      border-bottom: 1px solid var(--rule);
+      min-width: 200px;
+      height: 1.6em;
+      vertical-align: bottom;
+      margin: 0 4px;
+    }
+    .fill.long { min-width: 380px; }
+    .fill.full { width: 100%; min-width: 0; }
+
+    .form-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .form-row label {
+      flex: 0 0 auto;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--brown-dark);
+      font-size: 0.95rem;
+      min-width: 170px;
+    }
+    .form-row .fill { flex: 1; }
+
+    .lines {
+      margin-top: 12px;
+    }
+    .lines .line {
+      border-bottom: 1px solid var(--rule);
+      height: 1.7em;
+    }
+
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .hours-table th, .hours-table td {
+      padding: 9px 10px;
+      border: 1px solid var(--rule);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    .hours-table th {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      background: var(--parchment);
+      color: var(--brown-dark);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+    .hours-table td.day {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--brown-dark);
+      width: 22%;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      background: var(--red-deli);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      vertical-align: middle;
+    }
+    .badge.gold { background: var(--gold); color: var(--brown-dark); }
+    .badge.muted { background: var(--text-muted); color: #fff; }
+
+    .footer {
+      position: absolute;
+      left: 0.85in;
+      right: 0.85in;
+      bottom: 0.5in;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--rule);
+      padding-top: 8px;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .logo-row img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .logo-row .title-block { flex: 1; }
+
+    .stamp {
+      display: inline-block;
+      padding: 5px 14px;
+      background: var(--gold);
+      color: var(--brown-dark);
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      border-radius: 3px;
+      transform: rotate(-1deg);
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      padding-left: 38px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: -2px;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      background: var(--red-deli);
+      color: #fff;
+      border-radius: 50%;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+
+    /* Print: drop shadows + body tint, tighten margins */
+    @media print {
+      html, body { background: #fff; }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+      .page:last-child { page-break-after: auto; }
+      h2 { page-break-after: avoid; }
+      .callout, .hours-table, ol, ul { page-break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+      .footer { position: fixed; }
+    }
+
+    @page { size: letter; margin: 0; }
+  </style>
+</head>
+<body>
+
+<!-- ======================== PAGE 1 — COVER ======================== -->
+<section class="page">
+  <div class="logo-row">
+    <picture>
+      <source srcset="../500_white_logo.webp" type="image/webp" />
+      <img src="../500_white_logo.png" alt="Bank St. Grinders" style="background: #000;" />
+    </picture>
+    <div class="title-block">
+      <div class="kicker">Bank St. Grinders</div>
+      <h1>Admin Handbook<small>For the family who runs the deli — keep this near the register</small></h1>
+    </div>
+  </div>
+
+  <p class="lead">You have <b>three places to make changes</b>. They all live on the Pis we set up at the deli — only people on the deli's WiFi (or your home network) can reach them. Every change is saved instantly to the Pi; for the public website, you also have to click <span class="badge gold">Publish</span> to send it live.</p>
+
+  <h2><span class="num">1.</span> The three admin pages</h2>
+  <table class="hours-table">
+    <tr>
+      <th style="width: 22%;">What it controls</th>
+      <th style="width: 38%;">Web address</th>
+      <th>How fast it updates</th>
+    </tr>
+    <tr>
+      <td class="day">TV #1 — the menu board</td>
+      <td><span class="url">http://<span class="pi1-host">192.168.0.133:8080</span>/tv/admin.html</span></td>
+      <td>~30 seconds</td>
+    </tr>
+    <tr>
+      <td class="day">TV #2 — the rotating screen</td>
+      <td><span class="url">http://<span class="pi1-host">192.168.0.133:8080</span>/tv/admin.html</span> <small>(TV #2 tab)</small></td>
+      <td>~90 seconds</td>
+    </tr>
+    <tr>
+      <td class="day">Website (bankstgrinders.com)</td>
+      <td><span class="url">http://192.168.0.133:8080/tv/site-admin.html</span></td>
+      <td>~30 sec after <b>Publish</b></td>
+    </tr>
+  </table>
+
+  <h2><span class="num">2.</span> Your details (write these in)</h2>
+
+  <div class="form-row"><label>Admin username</label><span class="fill long">admin</span></div>
+  <div class="form-row"><label>Admin password</label><span class="fill long"></span></div>
+  <div class="form-row"><label>Pi #1 IP address</label><span class="fill long" id="pi1IpFill"></span></div>
+  <div class="form-row"><label>Pi #2 IP address</label><span class="fill long"></span></div>
+  <div class="form-row"><label>Deli Wi-Fi name</label><span class="fill long"></span></div>
+  <div class="form-row"><label>Deli Wi-Fi password</label><span class="fill long"></span></div>
+  <div class="form-row"><label>Date Pis set up</label><span class="fill long"></span></div>
+  <div class="form-row"><label>If something breaks, call</label><span class="fill long"></span></div>
+
+  <div class="callout">
+    <b>About IP addresses:</b> the URLs above show <span class="pi1-host">192.168.0.133:8080</span> as a placeholder, but every Wi-Fi network gives the Pi a different IP. <b>For the right URLs at the deli, open this handbook on the deli Pi after setup, then print or save it as PDF.</b> The page auto-fills the deli's IP into every URL on the spot. See page 5 for how to find a Pi's IP if you forget.
+  </div>
+
+  <div class="callout">
+    <b>Tip:</b> on your iPad or phone, open each admin page once, then tap the share icon in Safari and pick <b>Add to Home Screen</b>. They'll open like apps and stay logged in.
+  </div>
+
+  <div class="footer">
+    <span>Bank St. Grinders Admin Handbook</span>
+    <span>Page 1 of 5</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 2 — MENU ADMIN ======================== -->
+<section class="page">
+  <span class="stamp">TV #1 &mdash; Menu Board</span>
+  <h1 style="margin-top: 14px;">Menu Admin<small>Edits the static menu board (the big TV behind the counter).</small></h1>
+
+  <p class="lead">Open <span class="url"><span class="pi1-host">192.168.0.133:8080</span>/tv/admin.html</span> in a browser. Sign in with your admin password. Click the <b>TV #1 — Menu</b> tab.</p>
+
+  <h2><span class="num">1.</span> Common tasks</h2>
+
+  <h3>Change a price</h3>
+  <ol class="step-list">
+    <li>Find the item in the right category (e.g. Italian Grinders).</li>
+    <li>Click the price field, type the new price (no dollar sign needed).</li>
+    <li>Click <b>Save Changes</b> at the top right.</li>
+    <li>The TV updates in about 30 seconds.</li>
+  </ol>
+
+  <h3>Add a new sandwich</h3>
+  <ol class="step-list">
+    <li>Scroll to the right category, click <b>+ Add Item</b>.</li>
+    <li>Fill in name, description, and price.</li>
+    <li>Use the size and bold controls if you want it to stand out.</li>
+    <li>Click <b>Save Changes</b>.</li>
+  </ol>
+
+  <h3>Take an item off the menu</h3>
+  <ol class="step-list">
+    <li>Click the <b>×</b> next to the item.</li>
+    <li>Click <b>Save Changes</b>. (The item is gone — there's a backup on the Pi if you need it back.)</li>
+  </ol>
+
+  <h3>Make text bigger or bolder</h3>
+  <p>Each item has small +/- size buttons and a bold toggle. Use these for daily specials or anything you want eyes on. Default size is 100; keep most items there.</p>
+
+  <div class="callout"><b>Don't see your change?</b> Wait 30 seconds and look again. The TV polls for updates on a timer, so changes don't show instantly — that's normal.</div>
+
+  <h2><span class="num">2.</span> Items I want to add or change</h2>
+  <div class="lines">
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+  </div>
+
+  <div class="footer">
+    <span>Bank St. Grinders Admin Handbook</span>
+    <span>Page 2 of 5 — Menu Admin</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 3 — ROTATION ADMIN ======================== -->
+<section class="page">
+  <span class="stamp">TV #2 &mdash; Rotating Screen</span>
+  <h1 style="margin-top: 14px;">Rotation Admin<small>Edits the rotating screen — slides, videos, deals, and the Pepsi clip.</small></h1>
+
+  <p class="lead">Open <span class="url"><span class="pi1-host">192.168.0.133:8080</span>/tv/admin.html</span>, sign in, and click the <b>TV #2 — Rotation</b> tab.</p>
+
+  <h2><span class="num">1.</span> The rotation</h2>
+  <p>This screen plays a list of slides one after another. Each slide is shown for about 10 seconds. You can reorder, add, or remove slides anytime.</p>
+  <ul>
+    <li><b>Up / Down arrows</b> reorder a slide in the rotation.</li>
+    <li><b>×</b> removes a slide. (The file stays on the Pi for a day in case you put it back.)</li>
+    <li><b>+ Menu Section</b> adds a built-in slide (Soup Specials, Combo Deal, Featured Sandwich, etc.).</li>
+    <li><b>+ Image</b> uploads a photo (jpg / png / webp).</li>
+    <li><b>+ Video</b> uploads a clip (mp4 / mov). Used for the Pepsi spot.</li>
+  </ul>
+
+  <h2><span class="num">2.</span> The "Promos" section</h2>
+  <p>Three slides on TV #2 read live data from the Promos panel — same admin page, scroll down on the TV #1 tab.</p>
+  <ul>
+    <li><b>Featured Sandwich</b> — pick an item from the menu, optionally upload a hero photo.</li>
+    <li><b>Combo Deal</b> — name, items list (one per line), price, tagline.</li>
+    <li><b>QR / Reviews</b> — paste your Google review URL; the slide generates the QR code automatically.</li>
+  </ul>
+
+  <h2><span class="num">3.</span> The Pepsi clip</h2>
+  <p>Upload your Pepsi <span class="url">.mp4</span> with <b>+ Video</b>, then drag it into the spot you want — most natural is right before <b>Make-It-A-Meal</b>.</p>
+
+  <div class="callout"><b>Tip:</b> TV #2 takes about 90 seconds to pick up changes — longer than TV #1 because it has to download new media.</div>
+
+  <h2><span class="num">4.</span> Slides I plan to add</h2>
+  <div class="lines">
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div><div class="line"></div>
+  </div>
+
+  <div class="footer">
+    <span>Bank St. Grinders Admin Handbook</span>
+    <span>Page 3 of 5 — Rotation Admin</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 4 — SITE ADMIN ======================== -->
+<section class="page">
+  <span class="stamp">Public Website</span>
+  <h1 style="margin-top: 14px;">Website Admin<small>Edits the public homepage at bankstgrinders.com.</small></h1>
+
+  <p class="lead">Open <span class="url"><span class="pi1-host">192.168.0.133:8080</span>/tv/site-admin.html</span> in a browser. <b>Save</b> writes the change locally on the Pi. <b>Publish to Site</b> sends it live to the world.</p>
+
+  <div class="callout"><b>Important:</b> the website doesn't change for customers until you click <b>Publish to Site</b>. Saving alone just stages the change — that's on purpose, so you can preview before going public.</div>
+
+  <h2><span class="num">1.</span> Hours of operation</h2>
+  <p>Each day has an open time, a close time, and a <b>Closed</b> checkbox. Use formats like <span class="url">9:00 AM</span> or <span class="url">6:30 PM</span> — half-hours work too.</p>
+
+  <table class="hours-table">
+    <tr><th>Day</th><th>Open</th><th>Close</th><th>Closed?</th></tr>
+    <tr><td class="day">Monday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+    <tr><td class="day">Tuesday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+    <tr><td class="day">Wednesday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+    <tr><td class="day">Thursday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+    <tr><td class="day">Friday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+    <tr><td class="day">Saturday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+    <tr><td class="day">Sunday</td><td><span class="fill"></span></td><td><span class="fill"></span></td><td>☐</td></tr>
+  </table>
+
+  <h2><span class="num">2.</span> Announcement banner</h2>
+  <p>The big gold-bordered card at the top of the homepage. Empty = nothing shows. Type a message in plain language, hit Enter for line breaks. Pick an <b>Auto-hide on</b> date and the banner disappears after that day on its own — handy for "Closing early Friday" or "Open this Saturday."</p>
+
+  <h3>Examples</h3>
+  <ul>
+    <li><i>"Closing early today at 3pm. See you tomorrow!"</i></li>
+    <li><i>"Open this Saturday 9am–2pm — come grab a grinder!"</i></li>
+    <li><i>"Closed Thanksgiving and Christmas. Back open December 26."</i></li>
+  </ul>
+
+  <h2><span class="num">3.</span> The Save / Publish flow</h2>
+  <ol class="step-list">
+    <li>Make your edits on the Site Admin page.</li>
+    <li>Click <b>Save</b> — saves on the Pi only. The button at the top tells you how many changes are waiting.</li>
+    <li>Refresh <span class="url">bankstgrinders.com</span> (or <span class="url">localhost:8080</span> on the Pi) to preview.</li>
+    <li>Happy with it? Click <b>Publish to Site</b>. About 30 seconds later, the live site updates.</li>
+  </ol>
+
+  <h2><span class="num">4.</span> Upcoming announcements</h2>
+  <div class="lines">
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div>
+  </div>
+
+  <div class="footer">
+    <span>Bank St. Grinders Admin Handbook</span>
+    <span>Page 4 of 5 — Website Admin</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 5 — TROUBLESHOOTING ======================== -->
+<section class="page">
+  <span class="stamp">If something goes wrong</span>
+  <h1 style="margin-top: 14px;">Troubleshooting<small>The most common problems and how to fix them yourself.</small></h1>
+
+  <h2><span class="num">1.</span> "I forgot the password"</h2>
+  <p>The password lives in the Pi's settings, set when we first plugged the Pis in. There's no recovery from inside the admin — call whoever set them up. Write the recovery contact on page 1.</p>
+
+  <h2><span class="num">2.</span> A TV is blank or stuck on the desktop</h2>
+  <ol class="step-list">
+    <li>Make sure the HDMI cable is fully seated at both ends. Most "stuck" TVs are a loose cable.</li>
+    <li>Power-cycle the Pi: unplug, wait 10 seconds, plug back in.</li>
+    <li>Wait about a minute for it to boot.</li>
+  </ol>
+
+  <h2><span class="num">3.</span> "I edited something but the TV didn't update"</h2>
+  <p>Wait. <b>TV #1 takes about 30 seconds</b> to refresh; <b>TV #2 takes up to 90 seconds</b>. If it's been longer, check that you clicked <b>Save Changes</b>. The Save button briefly says "Saved!" when it works.</p>
+
+  <h2><span class="num">4.</span> "Publish to Site failed"</h2>
+  <p>Most likely the Pi can't reach GitHub. Check the deli's internet. The local Save still worked — your changes are safe on the Pi. Try Publish again in a few minutes.</p>
+  <p>If the error mentions <i>"Remote has new commits"</i>: someone made a change on GitHub directly. Whoever set up the Pi needs to pull/rebase it.</p>
+
+  <h2><span class="num">5.</span> "The Site Admin says publishing isn't set up"</h2>
+  <p>The GitHub access token wasn't installed on this Pi yet, or it expired. On the Pi: open a terminal and run <span class="url">bash tv/setup-github-auth.sh</span>. Tokens last about a year — write the next renewal date below.</p>
+
+  <h3>GitHub token expiry tracker</h3>
+  <div class="form-row"><label>Token created on</label><span class="fill long"></span></div>
+  <div class="form-row"><label>Expires</label><span class="fill long"></span></div>
+  <div class="form-row"><label>Renewal reminder set</label><span class="fill long"></span></div>
+
+  <h2><span class="num">6.</span> "I can't reach any admin page"</h2>
+  <ol class="step-list">
+    <li>Check that your iPad or laptop is on the deli's Wi-Fi (not cellular).</li>
+    <li>Try Pi #2's IP if Pi #1 isn't responding: <span class="url"><span class="pi2-host">192.168.0.119:8080</span>/tv/admin.html</span> serves the same admin.</li>
+    <li>If both Pis are unreachable, the router may be down — restart the deli's router.</li>
+  </ol>
+
+  <h2><span class="num">7.</span> Finding a Pi's IP at the deli</h2>
+  <p>If the IPs on page 1 stop working (the router rebooted, the deli changed Wi-Fi, etc.), here's how to find a Pi's new address:</p>
+  <ol class="step-list">
+    <li><b>Easiest:</b> on Pi #1, attach a keyboard, type <span class="url">hostname -I</span>, hit Enter. The first number that comes up is the Pi's IP.</li>
+    <li><b>From the router:</b> log into the deli's router admin page (usually <span class="url">192.168.0.1</span> or <span class="url">192.168.1.1</span>), look for a "connected devices" or "DHCP clients" list. The two Pis show up as <i>raspberrypi</i> or whatever names we set during setup.</li>
+    <li><b>From your phone:</b> if you can already reach Pi #1 in a browser, the URL bar shows its IP — write it on the cover page. Pi #2 is almost always one number away.</li>
+  </ol>
+  <p>Once you have the new IPs, scratch out the old ones on page 1 and write the new ones in — or open the handbook on the Pi and reprint, and the URLs auto-update.</p>
+
+  <h2><span class="num">8.</span> Backups</h2>
+  <p>Every menu save is backed up automatically on the Pi at <span class="url">tv/data/backups/</span> (last 30 saves). The website's edit history lives in GitHub — every change is a version you can roll back.</p>
+
+  <h2><span class="num">9.</span> Notes &amp; questions</h2>
+  <div class="lines">
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div><div class="line"></div>
+  </div>
+
+  <div class="footer">
+    <span>Bank St. Grinders Admin Handbook</span>
+    <span>Page 5 of 5 — Troubleshooting</span>
+  </div>
+</section>
+
+<script>
+  // Auto-fill the printed Pi #1 URLs with whatever IP this handbook is being
+  // served from. Open the handbook ON the Pi at the deli, print → URLs are
+  // already correct. Open it from a dev box (localhost / 127.x), URLs keep
+  // the placeholder so the reader knows to substitute.
+  (function() {
+    var host = window.location.host || '';
+    var bareHost = host.split(':')[0];
+    var localish = !bareHost
+      || bareHost === 'localhost'
+      || bareHost === '127.0.0.1'
+      || bareHost.indexOf('::') !== -1;
+    if (localish) return;
+
+    document.querySelectorAll('.pi1-host').forEach(function(el) {
+      el.textContent = host;
+    });
+
+    // Also pre-fill the "Pi #1 IP address" form line on the cover so the
+    // person printing has a starting value (still over-writable by hand).
+    var pi1Fill = document.getElementById('pi1IpFill');
+    if (pi1Fill && !pi1Fill.textContent.trim()) {
+      pi1Fill.textContent = bareHost;
+    }
+  })();
+</script>
+
+</body>
+</html>
