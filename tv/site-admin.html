@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>Website Admin — Bank St. Grinders</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8b1a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Site Admin" />
+  <link rel="apple-touch-icon" href="../500_white_logo.png" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:     #f5f0e8;
+      --parchment: #e8dfc8;
+      --brown-dark:#3b2314;
+      --brown-mid: #6b3f23;
+      --red-deli:  #8b1a1a;
+      --gold:      #c49a3c;
+      --text-dark: #2a1a0e;
+      --text-muted:#6b5040;
+      --ok-green:  #2e7d32;
+    }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      padding-bottom: 120px;
+      padding-top: env(safe-area-inset-top, 0);
+      padding-left: env(safe-area-inset-left, 0);
+      padding-right: env(safe-area-inset-right, 0);
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .admin-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #000;
+      border-bottom: 4px solid var(--red-deli);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cream);
+    }
+    .admin-title small {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.05em;
+    }
+
+    .btn {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, opacity 0.2s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.55; cursor: wait; }
+
+    .save-btn {
+      font-size: 1.1rem;
+      padding: 14px 28px;
+      background: var(--red-deli);
+      color: #fff;
+      border: 3px solid var(--red-deli);
+      min-height: 56px;
+      min-width: 150px;
+    }
+    .save-btn:hover:not(:disabled) { background: var(--brown-dark); border-color: var(--brown-dark); }
+
+    .publish-btn {
+      font-size: 1.1rem;
+      padding: 14px 28px;
+      background: var(--gold);
+      color: var(--brown-dark);
+      border: 3px solid var(--gold);
+      min-height: 56px;
+      min-width: 180px;
+    }
+    .publish-btn:hover:not(:disabled) { background: #d4a84a; border-color: #d4a84a; }
+    .publish-btn.idle { opacity: 0.55; }
+
+    .logout-btn {
+      font-size: 0.9rem;
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--parchment);
+      border: 2px solid var(--parchment);
+      min-height: 44px;
+    }
+    .logout-btn:hover { background: var(--parchment); color: #000; }
+
+    .save-status {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+    .save-status.ok { color: #9ee19e; }
+    .save-status.err { color: #ff9a9a; }
+
+    /* --- LOGIN --- */
+    .login-page {
+      max-width: 420px;
+      margin: 80px auto 0;
+      padding: 32px 28px;
+      background: #fff;
+      border: 3px solid var(--gold);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(59, 35, 20, 0.12);
+    }
+    .login-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--red-deli);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .login-field { margin-bottom: 16px; }
+    .field-label {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--brown-dark);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .login-field input,
+    .text-input {
+      width: 100%;
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      padding: 12px 14px;
+      border: 2px solid var(--parchment);
+      border-radius: 8px;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 48px;
+    }
+    .login-field input:focus,
+    .text-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: #fff;
+    }
+    .login-error {
+      display: none;
+      font-style: italic;
+      color: var(--red-deli);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .login-btn {
+      width: 100%;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 14px;
+      background: var(--red-deli);
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      min-height: 56px;
+    }
+    .helper {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* --- BODY --- */
+    .admin-body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+    }
+
+    .panel {
+      background: #fff;
+      border: 2px solid var(--parchment);
+      border-radius: 12px;
+      padding: 22px 22px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 10px rgba(59, 35, 20, 0.05);
+    }
+    .panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--red-deli);
+      margin-bottom: 4px;
+    }
+    .panel .panel-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 18px;
+    }
+
+    /* Publish status banner */
+    .publish-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-size: 0.95rem;
+    }
+    .publish-banner.clean {
+      background: #eef7ee;
+      border: 2px solid var(--ok-green);
+      color: #1c4d20;
+    }
+    .publish-banner.dirty {
+      background: #fff5d8;
+      border: 2px solid var(--gold);
+      color: var(--brown-dark);
+    }
+    .publish-banner b { font-weight: 700; }
+
+    /* --- HOURS FORM --- */
+    .hours-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--parchment);
+    }
+    .hours-row:last-child { border-bottom: 0; }
+    .hours-row .day-label {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--brown-dark);
+    }
+    .hours-row.closed .text-input {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .closed-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .closed-toggle input {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+    }
+
+    .hint-line {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+      font-style: italic;
+    }
+
+    /* --- ANNOUNCEMENT FIELDS --- */
+    #annMsg {
+      width: 100%;
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      padding: 12px 14px;
+      border: 2px solid var(--parchment);
+      border-radius: 8px;
+      background: var(--cream);
+      color: var(--text-dark);
+      resize: vertical;
+      min-height: 90px;
+    }
+    #annMsg:focus { outline: none; border-color: var(--gold); background: #fff; }
+    .ann-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .ann-expiry-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Lora', serif;
+      color: var(--text-muted);
+    }
+    .field-label-inline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--brown-dark);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .ann-expiry-input {
+      width: auto;
+      min-width: 180px;
+    }
+    .ann-clear-btn {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px dashed var(--parchment);
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      min-height: 40px;
+    }
+    .ann-clear-btn:hover { color: var(--red-deli); border-color: var(--red-deli); }
+
+    @media (max-width: 640px) {
+      .hours-row {
+        grid-template-columns: 90px 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .hours-row .closed-toggle {
+        grid-column: 1 / -1;
+        justify-self: end;
+      }
+      .save-btn, .publish-btn { min-width: 120px; padding: 12px 16px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="login-page" style="display:none;">
+  <h1 class="login-heading">Website Admin</h1>
+  <!-- autocomplete=off + new-password to stop the iPad/Chrome password
+       manager from silently overwriting fields with the wrong saved login. -->
+  <form autocomplete="off" onsubmit="event.preventDefault();">
+    <div class="login-field">
+      <label class="field-label">Username</label>
+      <input type="text" id="loginUser" name="bsg-site-user" value="admin" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" />
+    </div>
+    <div class="login-field">
+      <label class="field-label">Password</label>
+      <input type="password" id="loginPass" name="bsg-site-pass" autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false" />
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+  </form>
+  <div class="helper">Same login as the menu admin. If autofill puts something here, double-check the username is <b>admin</b>.</div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" style="display:none;">
+
+  <div class="admin-bar">
+    <div class="admin-title">
+      Website Admin
+      <small>bankstgrinders.com — edits go live after you Publish</small>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <span class="save-status" id="saveStatus"></span>
+      <button class="btn save-btn" id="saveBtn">Save</button>
+      <button class="btn publish-btn idle" id="publishBtn">Publish to Site</button>
+      <button class="btn logout-btn" id="logoutBtn">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-body" id="adminBody"></div>
+
+</div>
+
+<script src="site-admin.js"></script>
+
+</body>
+</html>
